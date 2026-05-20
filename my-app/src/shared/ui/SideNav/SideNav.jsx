@@ -1,7 +1,8 @@
 import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 
 const navItems = [
-    { label: "Unit Converter", href: "#unit-converter" },
+    { label: "Case Converter", href: "#unit-converter" },
+    { label: "Letter Counter", href: "" },
     { label: "Rent Calculator", href: "#rent-calculator" },
     { label: "Spend Tracker", href: "#spend-tracker" },
     { label: "Notes", href: "#notes" },

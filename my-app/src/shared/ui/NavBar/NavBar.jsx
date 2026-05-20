@@ -21,7 +21,7 @@ export default function AppNavBar({ isLogin }) {
           {!isLogin ? (
             <>
               <Nav.Link href=''>Sign up</Nav.Link>
-              <Nav.Link href="">Login</Nav.Link>
+              <Nav.Link href=''>Login</Nav.Link>
             </>
           ) : (
             <NavDropdown title="Username(email)" id="basic-nav-dropdown">
