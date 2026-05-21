@@ -1,15 +1,8 @@
-import { CustomerPage } from '../features/customers'
-import MainLayout from '../shared/ui/Homepage/HomepageLayout'
+import { RouterProvider } from 'react-router-dom'
 import './App.css'
-
+import router from '../features/RouterConfig/router'
 function App() {
-  return (
-    <>
-      <MainLayout>
-        <h1>test layout</h1>
-      </MainLayout>
-    </>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App

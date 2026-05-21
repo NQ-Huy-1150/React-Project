@@ -1,12 +1,5 @@
 import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
-
-const navItems = [
-    { label: "Case Converter", href: "#unit-converter" },
-    { label: "Letter Counter", href: "" },
-    { label: "Rent Calculator", href: "#rent-calculator" },
-    { label: "Spend Tracker", href: "#spend-tracker" },
-    { label: "Notes", href: "#notes" },
-];
+import { Link } from "react-router-dom";
 
 export default function SideNav() {
     return (
@@ -14,11 +7,11 @@ export default function SideNav() {
             <div className="d-none d-lg-block bg-light border rounded p-3">
                 <div className="fw-semibold mb-2">Tool Categories</div>
                 <Nav className="flex-column gap-2">
-                    {navItems.map((item) => (
-                        <Nav.Link key={item.href} href={item.href} className="px-0">
-                            {item.label}
-                        </Nav.Link>
-                    ))}
+                    <Nav.Link as={Link} to='/case-converter'>Case Converter</Nav.Link>
+                    <Nav.Link as={Link} to='/rent-calculator' >Rent Calculator</Nav.Link>
+                    <Nav.Link as={Link} to='/letter-counter' >Letter Counter</Nav.Link>
+                    <Nav.Link as={Link} to='/spend-tracker' >Spend Tracker</Nav.Link>
+                    <Nav.Link as={Link} to='/notes' >Notes</Nav.Link>
                 </Nav>
             </div>
 
@@ -31,11 +24,11 @@ export default function SideNav() {
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="flex-column gap-2">
-                                {navItems.map((item) => (
-                                    <Nav.Link key={item.href} href={item.href}>
-                                        {item.label}
-                                    </Nav.Link>
-                                ))}
+                                <Nav.Link as={Link} to='/case-converter'>Case Converter</Nav.Link>
+                                <Nav.Link as={Link} to='/rent-calculator' >Rent Calculator</Nav.Link>
+                                <Nav.Link as={Link} to='/letter-counter' >Letter Counter</Nav.Link>
+                                <Nav.Link as={Link} to='/spend-tracker' >Spend Tracker</Nav.Link>
+                                <Nav.Link as={Link} to='/notes' >Notes</Nav.Link>
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>

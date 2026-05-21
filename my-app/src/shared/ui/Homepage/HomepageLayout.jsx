@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "../NavBar/NavBar";
 import SideNav from "../SideNav/SideNav";
 import Footer from "../Footer/Footer";
-export default function MainLayout({ isLogin = false, children }) {
+import { Outlet } from 'react-router-dom'
+export default function MainLayout() {
+    const [isLogin, setIsLogin] = useState(false);
+    const [userData, setUserData] = useState(null);
     return (
         <Container fluid className="pt-5 px-3 px-lg-4">
             <Row>
@@ -15,7 +19,9 @@ export default function MainLayout({ isLogin = false, children }) {
                     <SideNav />
                 </Col>
                 <Col xs={12} md={9}>
-                    {children}
+                    <main>
+                        <Outlet />
+                    </main>
                     <Footer />
                 </Col>
             </Row>
