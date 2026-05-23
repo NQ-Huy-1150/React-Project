@@ -7,11 +7,11 @@ export default function SideNav() {
             <div className="d-none d-lg-block bg-light border rounded p-3">
                 <div className="fw-semibold mb-2">Tool Categories</div>
                 <Nav className="flex-column gap-2">
-                    <Nav.Link as={Link} to='/case-converter'>Case Converter</Nav.Link>
-                    <Nav.Link as={Link} to='/rent-calculator' >Rent Calculator</Nav.Link>
-                    <Nav.Link as={Link} to='/letter-counter' >Letter Counter</Nav.Link>
-                    <Nav.Link as={Link} to='/spend-tracker' >Spend Tracker</Nav.Link>
-                    <Nav.Link as={Link} to='/notes' >Notes</Nav.Link>
+                    <Nav.Link as={Link} to='case-converter'>Case Converter</Nav.Link>
+                    <Nav.Link as={Link} to='rent-calculator' >Rent Calculator</Nav.Link>
+                    <Nav.Link as={Link} to='letter-counter' >Letter Counter</Nav.Link>
+                    <Nav.Link as={Link} to='spend-tracker' >Spend Tracker</Nav.Link>
+                    <Nav.Link as={Link} to='notes' >Notes</Nav.Link>
                 </Nav>
             </div>
 
@@ -24,11 +24,11 @@ export default function SideNav() {
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="flex-column gap-2">
-                                <Nav.Link as={Link} to='/case-converter'>Case Converter</Nav.Link>
-                                <Nav.Link as={Link} to='/rent-calculator' >Rent Calculator</Nav.Link>
-                                <Nav.Link as={Link} to='/letter-counter' >Letter Counter</Nav.Link>
-                                <Nav.Link as={Link} to='/spend-tracker' >Spend Tracker</Nav.Link>
-                                <Nav.Link as={Link} to='/notes' >Notes</Nav.Link>
+                                <Nav.Link as={Link} to='case-converter'>Case Converter</Nav.Link>
+                                <Nav.Link as={Link} to='rent-calculator' >Rent Calculator</Nav.Link>
+                                <Nav.Link as={Link} to='letter-counter' >Letter Counter</Nav.Link>
+                                <Nav.Link as={Link} to='spend-tracker' >Spend Tracker</Nav.Link>
+                                <Nav.Link as={Link} to='notes' >Notes</Nav.Link>
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
