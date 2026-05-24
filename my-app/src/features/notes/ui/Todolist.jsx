@@ -1,29 +1,68 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 import '../css/Styles.css'
 
-function Todo({ obj, todos, setTodos }) {
-    let newChecked;
-    if (obj.checked) {
-        newChecked = false;
-    }
-    else newChecked = true;
+function Todo({ obj, setTodos }) {
+    const [editing, setEditing] = useState(false);
     const onChangeChecked = () => {
-        setTodos(() =>
-            todos.map(todo => (todo.id === obj.id ? { ...todo, checked: newChecked } : todo)
+        setTodos((prev) =>
+            prev.map(todo => (todo.id === obj.id ? { ...todo, checked: !todo.checked } : todo)
             )
         )
     };
+    const inputRef = useRef(null);
+    const handleEdit = () => {
+        setEditing(true);
+    };
+    useEffect(() => {
+        if (editing && inputRef.current) {
+            inputRef.current.focus();
+            inputRef.current.setSelectionRange(
+                inputRef.current.value.length,
+                inputRef.current.value.length
+            );
+        }
+    }, [editing]);
+    const handleInputBlur = () => {
+        setEditing(false);
+    };
+    const handleInputChange = (e) => {
+        setTodos((prev) =>
+            prev.map(todo => (todo.id === obj.id ? { ...todo, content: e.target.value } : todo)
+            )
+        )
+    };
+    const handleDelete = () => {
+        setTodos((prev) => (
+            prev.filter(todo => (
+                todo.id !== obj.id
+            ))
+        ));
+    }
     return (
         <>
             <Row>
                 <Col xs={12} md={8}>
-                    <input type="checkbox" checked={obj.checked} onChange={onChangeChecked} />
-                    <span className='ms-2'>{!obj.checked ? obj.content : <del>{obj.content}</del>}</span>
+                    {!editing ? (
+                        <>
+                            <input type="checkbox" checked={obj.checked} onChange={onChangeChecked} />
+                            <span className='ms-2'>{!obj.checked ? obj.content : <del>{obj.content}</del>}</span>
+                        </>
+                    ) : (
+                        <>
+                            <Form>
+                                <input className='form-control'
+                                    type="text" ref={inputRef}
+                                    onBlur={handleInputBlur}
+                                    onChange={handleInputChange}
+                                    defaultValue={obj.content} />
+                            </Form>
+                        </>
+                    )}
                 </Col>
                 <Col xs={12} md={4}>
-                    <Button className='me-3 ms-5' size='sm'>Edit</Button>
-                    <Button size='sm'>Delete</Button>
+                    <Button className='me-3 ms-5' size='sm' onClick={handleEdit}>Edit</Button>
+                    <Button size='sm' onClick={handleDelete}>Delete</Button>
                 </Col>
             </Row>
         </>
@@ -73,7 +112,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
                             <ul>
                                 {todos.map((obj) => (
                                     <li key={obj.id} className='mb-3'>
-                                        <Todo obj={obj} setTodos={setTodos} todos={todos} />
+                                        <Todo obj={obj} setTodos={setTodos} />
                                     </li>
                                 ))}
                             </ul>
@@ -82,7 +121,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button className='me-3' type='submit'>Save</Button>
+                <Button className='me-3' type='button'>Save</Button>
                 <Button variant='secondary' onClick={onHide}>Close</Button>
             </Modal.Footer>
         </Modal>
@@ -96,7 +135,6 @@ export default function NoteTodolist() {
     });
     const [todos, setTodos] = useState([]);
     const [modalShow, setModalShow] = useState(false);
-    const [error, setError] = useState(null);
     return (
         <>
             <div className='d-flex justify-content-end'>
@@ -123,8 +161,8 @@ export default function NoteTodolist() {
                 }}
                 onAddToList={() => {
                     if (!todo.content.trim()) return;
-                    setTodos([
-                        ...todos,
+                    setTodos((prev) => [
+                        ...prev,
                         { id: crypto.randomUUID(), ...todo }
                     ]);
                     setTodo({ content: '', checked: false });
