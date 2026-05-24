@@ -1,0 +1,17 @@
+.note-editor:empty::before {
+    content: attr(data-placeholder);
+    color: #6c757d;
+    pointer-events: none;
+}
+
+.note-editor {
+    min-height: 90px;
+    white-space: pre-wrap;
+}
+
+h4 {
+    width: 700px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
