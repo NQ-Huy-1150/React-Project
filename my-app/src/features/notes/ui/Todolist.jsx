@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 import '../css/Styles.css'
+import GetTodoList from './TodolistForm';
 
 function Todo({ obj, setTodos }) {
     const [editing, setEditing] = useState(false);
@@ -69,13 +70,17 @@ function Todo({ obj, setTodos }) {
     );
 }
 
-function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, title, onAddToList, setTodos }) {
+function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, title, onAddToList, setTodos, setError, error, status, setStatus }) {
+    const handleResetError = () => {
+        setError('');
+    }
     return (
         <Modal
             show={show}
             onHide={onHide}
             size="lg"
             centered
+            backdrop={status === 'submitting' ? "static" : undefined}
         >
             <Modal.Header closeButton>
                 <Modal.Title>
@@ -104,7 +109,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
                             />
                         </Col>
                         <Col xs={12} md={3}>
-                            <Button type="button" onClick={onAddToList} >Create new task</Button>
+                            <Button type="button" onClick={onAddToList} onChange={handleResetError}>Create new task</Button>
                         </Col>
                     </Row>
                     <Row>
@@ -116,13 +121,13 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
                                     </li>
                                 ))}
                             </ul>
+                            {error && <p className='fw-bold text-danger'>{error}</p>}
                         </Col>
                     </Row>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button className='me-3' type='button'>Save</Button>
-                <Button variant='secondary' onClick={onHide}>Close</Button>
+                <GetTodoList onHide={onHide} todos={todos} title={title} setError={setError} setStatus={setStatus} />
             </Modal.Footer>
         </Modal>
     );
@@ -135,6 +140,8 @@ export default function NoteTodolist() {
     });
     const [todos, setTodos] = useState([]);
     const [modalShow, setModalShow] = useState(false);
+    const [error, setError] = useState('');
+    const [status, setStatus] = useState('typing');
     return (
         <>
             <div className='d-flex justify-content-end'>
@@ -168,6 +175,10 @@ export default function NoteTodolist() {
                     setTodo({ content: '', checked: false });
                 }}
                 setTodos={setTodos}
+                setError={setError}
+                error={error}
+                status={status}
+                setStatus={setStatus}
             />
         </>
 

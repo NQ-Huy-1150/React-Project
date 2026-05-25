@@ -95,7 +95,6 @@ export default function NotePad() {
                     }));
                 }}
             />
-            <p>{note.contentText}</p>
         </>
 
 
