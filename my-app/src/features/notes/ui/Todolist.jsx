@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import { Modal, Button, Row, Col, Form, ListGroup } from 'react-bootstrap';
+import { useLoaderData, useFetcher } from 'react-router-dom';
 import '../css/Styles.css'
 import GetTodoList from './TodolistForm';
-
+import ShowCard from './CardLayout';
 function Todo({ obj, setTodos }) {
     const [editing, setEditing] = useState(false);
     const onChangeChecked = () => {
         setTodos((prev) =>
-            prev.map(todo => (todo.id === obj.id ? { ...todo, checked: !todo.checked } : todo)
+            prev.map(todo => (todo.clientId === obj.clientId ? { ...todo, checked: !todo.checked } : todo)
             )
         )
     };
@@ -29,14 +30,14 @@ function Todo({ obj, setTodos }) {
     };
     const handleInputChange = (e) => {
         setTodos((prev) =>
-            prev.map(todo => (todo.id === obj.id ? { ...todo, content: e.target.value } : todo)
+            prev.map(todo => (todo.clientId === obj.clientId ? { ...todo, content: e.target.value } : todo)
             )
         )
     };
     const handleDelete = () => {
         setTodos((prev) => (
             prev.filter(todo => (
-                todo.id !== obj.id
+                todo.clientId !== obj.clientId
             ))
         ));
     }
@@ -70,7 +71,7 @@ function Todo({ obj, setTodos }) {
     );
 }
 
-function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, title, onAddToList, setTodos, setError, error, status, setStatus }) {
+function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, title, onAddToList, setTodos, setError, error, isSaving, fetcher, currentId }) {
     const handleResetError = () => {
         setError('');
     }
@@ -80,7 +81,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
             onHide={onHide}
             size="lg"
             centered
-            backdrop={status === 'submitting' ? "static" : undefined}
+            backdrop={isSaving ? "static" : undefined}
         >
             <Modal.Header closeButton>
                 <Modal.Title>
@@ -116,7 +117,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
                         <Col xs={12} md={12}>
                             <ul>
                                 {todos.map((obj) => (
-                                    <li key={obj.id} className='mb-3'>
+                                    <li key={obj.clientId} className='mb-3'>
                                         <Todo obj={obj} setTodos={setTodos} />
                                     </li>
                                 ))}
@@ -127,7 +128,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <GetTodoList onHide={onHide} todos={todos} title={title} setError={setError} setStatus={setStatus} />
+                <GetTodoList onHide={onHide} todos={todos} title={title} fetcher={fetcher} isSaving={isSaving} currentId={currentId} />
             </Modal.Footer>
         </Modal>
     );
@@ -135,51 +136,108 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
 export default function NoteTodolist() {
     const [title, setTitle] = useState('');
     const [todo, setTodo] = useState({
+        id: null,
         content: '',
         checked: false
     });
     const [todos, setTodos] = useState([]);
+    const [selectedList, setSelectedList] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const [error, setError] = useState('');
-    const [status, setStatus] = useState('typing');
+
+    const openModalWithList = (list) => {
+        setSelectedList(list);
+        setCurrentId(list?.id || null);
+        setModalShow(true);
+    };
+
+    useEffect(() => {
+        if (!modalShow) return;
+
+        if (selectedList) {
+            const newList = Array.isArray(selectedList.todos) ?
+                selectedList.todos.map(td => ({ ...td, clientId: crypto.randomUUID() })) : [];
+            setTitle(selectedList.title || '');
+            setTodos(newList);
+            setTodo({ id: null, content: '', checked: false });
+            return;
+        }
+
+        setTitle('');
+        setTodos([]);
+        setTodo({ id: null, content: '', checked: false });
+    }, [modalShow, selectedList]);
+
+    const todolists = useLoaderData();
+    const fetcher = useFetcher();
+    const isSaving = fetcher.state !== "idle";
+
+    useEffect(() => {
+        if (fetcher.data?.error) {
+            setError(fetcher.data.error);
+        }
+    }, [fetcher.data]);
+
+    useEffect(() => {
+        if (fetcher.state !== "idle" || !fetcher.formData) return;
+        if (fetcher.data?.error) return;
+
+        setModalShow(false);
+    }, [fetcher.state, fetcher.formData, fetcher.data]);
+
+    const [currentId, setCurrentId] = useState(0);
     return (
         <>
-            <div className='d-flex justify-content-end'>
-                <Button variant="primary" onClick={() => setModalShow(true)}>
-                    Create a new Todo-list
-                </Button>
-            </div>
-            <ModalInput
-                show={modalShow}
-                title={title}
-                onHide={() => {
-                    setModalShow(false);
-                }}
-                onTitleChange={(e) => {
-                    setTitle(e.target.value);
-                }}
-                todo={todo}
-                todos={todos}
-                onContentInput={(e) => {
-                    setTodo(todo => ({
-                        ...todo,
-                        content: e.target.value,
-                    }))
-                }}
-                onAddToList={() => {
-                    if (!todo.content.trim()) return;
-                    setTodos((prev) => [
-                        ...prev,
-                        { id: crypto.randomUUID(), ...todo }
-                    ]);
-                    setTodo({ content: '', checked: false });
-                }}
-                setTodos={setTodos}
-                setError={setError}
-                error={error}
-                status={status}
-                setStatus={setStatus}
-            />
+            <Row>
+                <Col xs={12} md={12}>
+                    <div className='d-flex justify-content-end'>
+                        <Button variant="primary" onClick={() => { openModalWithList(null); handleResetError }}>
+                            Create a new Todo-list
+                        </Button>
+                    </div>
+                    <ModalInput
+                        show={modalShow}
+                        title={title}
+                        onHide={() => {
+                            setModalShow(false);
+                        }}
+                        onTitleChange={(e) => {
+                            setTitle(e.target.value);
+                        }}
+                        todo={todo}
+                        todos={todos}
+                        onContentInput={(e) => {
+                            setTodo(todo => ({
+                                ...todo,
+                                content: e.target.value,
+                            }))
+                        }}
+                        onAddToList={() => {
+                            if (!todo.content.trim()) return;
+                            setTodos((prev) => [
+                                ...prev,
+                                { ...todo, clientId: crypto.randomUUID() }
+                            ]);
+                            setTodo({ id: null, content: '', checked: false });
+                        }}
+                        setTodos={setTodos}
+                        setError={setError}
+                        error={error}
+                        isSaving={isSaving}
+                        fetcher={fetcher}
+                        currentId={currentId}
+                    />
+                </Col>
+            </Row>
+            <Row className='mt-2 justify-content-center'>
+                {todolists.map(todo => (
+                    <ShowCard
+                        key={todo.id}
+                        todo={todo}
+                        openModalWithList={openModalWithList}
+                    />
+                ))}
+            </Row>
         </>
 
 

@@ -17,7 +17,7 @@ export default function AppNotes() {
                     <hr />
                 </Col>
             </Row>
-            <Row className="g-3 mt-1">
+            <Row className="g-3">
                 <Col xs={12} md={12}>
                     <main>
                         <Outlet />
