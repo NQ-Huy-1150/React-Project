@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { Form } from 'react-router-dom'
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
+import GetNotePadForm from './NotePadForm';
 import '../css/Styles.css'
 
 function ModalInput({ show, onHide, note, onTitleChange, onContentInput, status }) {
@@ -26,25 +26,19 @@ function ModalInput({ show, onHide, note, onTitleChange, onContentInput, status 
                         disabled={status === 'submiting'}
                     />
                 </Form>
-                <div className='form-control note-editor'
+                <div className='form-control note-editor mb-3'
                     contentEditable
                     data-placeholder='Content...'
                     onInput={onContentInput}
                 >
                 </div>
+                <Form.Group controlId="formFileMultiple" className="mb-3">
+                    <Form.Control type="file" multiple />
+                </Form.Group>
+
             </Modal.Body>
             <Modal.Footer>
-                <Form action=''>
-                    <input className='d-none' type='text' value={note.title == '' ? 'Untitled note' : note.title} readOnly />
-                    <textarea className='d-none' value={note.contentText} readOnly></textarea>
-                    <Button className='me-3'
-                        type='submit'
-                        disabled={
-                            note.contentText.length === 0 || status === 'submitting'
-                        }
-                    >Save</Button>
-                    <Button variant='secondary' onClick={onHide}>Close</Button>
-                </Form>
+                <GetNotePadForm note={note} onHide={onHide} status={status} />
             </Modal.Footer>
         </Modal>
     );
@@ -52,8 +46,7 @@ function ModalInput({ show, onHide, note, onTitleChange, onContentInput, status 
 export default function NotePad() {
     const [note, setNote] = useState({
         title: '',
-        contentText: '',
-        contentHtml: '',
+        contentText: ''
     });
     const [modalShow, setModalShow] = useState(false);
     const [status, setStatus] = useState('typing');
@@ -63,6 +56,14 @@ export default function NotePad() {
     }
     return (
         <>
+            <Row>
+                <Col xs={12} md={12}>
+
+                </Col>
+            </Row>
+            <Row>
+
+            </Row>
             <div className='d-flex justify-content-end'>
                 <Button variant="primary" onClick={() => setModalShow(true)}>
                     Create a notepad
@@ -75,8 +76,7 @@ export default function NotePad() {
                     setModalShow(false);
                     setNote({
                         title: '',
-                        contentText: '',
-                        contentHtml: '',
+                        contentText: ''
                     })
                 }}
                 note={note}
@@ -90,8 +90,7 @@ export default function NotePad() {
                     }
                     setNote((note) => ({
                         ...note,
-                        contentText: el.innerText,
-                        contentHtml: el.innerHTML,
+                        contentText: el.innerText
                     }));
                 }}
             />

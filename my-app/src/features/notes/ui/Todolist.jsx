@@ -4,6 +4,8 @@ import { useLoaderData, useFetcher } from 'react-router-dom';
 import '../css/Styles.css'
 import GetTodoList from './TodolistForm';
 import ShowCard from './CardLayout';
+import CatalogDropdown from './CatalogDropdown';
+import { getAllCatalog } from '../api/CatalogApi';
 function Todo({ obj, setTodos }) {
     const [editing, setEditing] = useState(false);
     const onChangeChecked = () => {
@@ -71,10 +73,9 @@ function Todo({ obj, setTodos }) {
     );
 }
 
-function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, title, onAddToList, setTodos, setError, error, isSaving, fetcher, currentId }) {
-    const handleResetError = () => {
-        setError('');
-    }
+function ModalInput({ show, onHide, todo, todos, onTitleChange,
+    onContentInput, title, onAddToList, setTodos, setError,
+    error, isSaving, fetcher, currentId, catalogId, setCatalogId, cataList }) {
     return (
         <Modal
             show={show}
@@ -99,6 +100,11 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
                                 onChange={onTitleChange}
                             />
                         </Col>
+                        <Row className='mb-3'>
+                            <Col xs={12} md={12}>
+                                <CatalogDropdown list={cataList} onChangeCatalog={(dropId) => setCatalogId(dropId)} selectedCatalogId={catalogId} />
+                            </Col>
+                        </Row>
                     </Row>
                     <Row>
                         <Col xs={12} md={9}>
@@ -110,7 +116,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
                             />
                         </Col>
                         <Col xs={12} md={3}>
-                            <Button type="button" onClick={onAddToList} onChange={handleResetError}>Create new task</Button>
+                            <Button type="button" onClick={onAddToList}>Create new task</Button>
                         </Col>
                     </Row>
                     <Row>
@@ -128,7 +134,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange, onContentInput, 
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <GetTodoList onHide={onHide} todos={todos} title={title} fetcher={fetcher} isSaving={isSaving} currentId={currentId} />
+                <GetTodoList onHide={onHide} todos={todos} title={title} fetcher={fetcher} isSaving={isSaving} currentId={currentId} catalogId={catalogId} />
             </Modal.Footer>
         </Modal>
     );
@@ -144,7 +150,9 @@ export default function NoteTodolist() {
     const [selectedList, setSelectedList] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const [error, setError] = useState('');
-
+    const [cataList, setCataList] = useState(null);
+    const [currentId, setCurrentId] = useState(0);
+    const [catalogId, setCatalogId] = useState(null);
     const openModalWithList = (list) => {
         setSelectedList(list);
         setCurrentId(list?.id || null);
@@ -154,18 +162,34 @@ export default function NoteTodolist() {
     useEffect(() => {
         if (!modalShow) return;
 
+        let cancelled = false;
+        const loadCatalogs = async () => {
+            try {
+                const data = await getAllCatalog();
+                if (!cancelled) setCataList(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        loadCatalogs();
+
         if (selectedList) {
             const newList = Array.isArray(selectedList.todos) ?
                 selectedList.todos.map(td => ({ ...td, clientId: crypto.randomUUID() })) : [];
             setTitle(selectedList.title || '');
+            setCatalogId(selectedList.catalogId ?? null);
             setTodos(newList);
             setTodo({ id: null, content: '', checked: false });
-            return;
+        } else {
+            setTitle('');
+            setTodos([]);
+            setTodo({ id: null, content: '', checked: false });
         }
 
-        setTitle('');
-        setTodos([]);
-        setTodo({ id: null, content: '', checked: false });
+        return () => {
+            cancelled = true;
+        };
     }, [modalShow, selectedList]);
 
     const todolists = useLoaderData();
@@ -185,13 +209,17 @@ export default function NoteTodolist() {
         setModalShow(false);
     }, [fetcher.state, fetcher.formData, fetcher.data]);
 
-    const [currentId, setCurrentId] = useState(0);
+    const handleCreateNewTodo = () => {
+        openModalWithList(null);
+        setCatalogId(null);
+    }
+
     return (
         <>
             <Row>
                 <Col xs={12} md={12}>
                     <div className='d-flex justify-content-end'>
-                        <Button variant="primary" onClick={() => { openModalWithList(null); handleResetError }}>
+                        <Button variant="primary" onClick={handleCreateNewTodo}>
                             Create a new Todo-list
                         </Button>
                     </div>
@@ -226,6 +254,9 @@ export default function NoteTodolist() {
                         isSaving={isSaving}
                         fetcher={fetcher}
                         currentId={currentId}
+                        catalogId={catalogId}
+                        setCatalogId={setCatalogId}
+                        cataList={cataList}
                     />
                 </Col>
             </Row>

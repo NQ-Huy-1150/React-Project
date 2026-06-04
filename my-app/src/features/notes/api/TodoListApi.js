@@ -35,12 +35,15 @@ export const TodoListAction = async ({ request }) => {
         const dataForm = await request.formData();
         const rawId = dataForm.get("id");
         const id = rawId ? +rawId : null;
+        const rawCatalogId = dataForm.get('catalogId');
+        const catalogId = rawCatalogId ? +rawCatalogId : null;
         const payload = {
             id: id,
             title: dataForm.get("title")?.toString().trim() || "Untitled",
             todos: JSON.parse(dataForm.get("items") || "[]"),
             createdAt: null,
-            updatedAt: null
+            updatedAt: null,
+            catalogId: catalogId
         };
         if (!payload.todos.length) {
             return { error: "Todo list must have at least 1 item." };
@@ -53,9 +56,9 @@ export const TodoListAction = async ({ request }) => {
         }
 
     } catch (error) {
-        if (error.response) {
-            return { error: "Cant connect to server !" }
+        return {
+            error: error.response?.data?.message || "Cant connect to server !"
         }
     }
-    return { message: 'successfully' }
+
 };
