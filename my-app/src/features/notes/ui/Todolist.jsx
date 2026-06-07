@@ -162,34 +162,40 @@ export default function NoteTodolist() {
     useEffect(() => {
         if (!modalShow) return;
 
-        let cancelled = false;
-        const loadCatalogs = async () => {
+        async function loadCatalogs() {
             try {
                 const data = await getAllCatalog();
-                if (!cancelled) setCataList(data);
+                setCataList(data);
             } catch (err) {
                 console.error(err);
             }
-        };
-
-        loadCatalogs();
-
-        if (selectedList) {
-            const newList = Array.isArray(selectedList.todos) ?
-                selectedList.todos.map(td => ({ ...td, clientId: crypto.randomUUID() })) : [];
-            setTitle(selectedList.title || '');
-            setCatalogId(selectedList.catalogId ?? null);
-            setTodos(newList);
-            setTodo({ id: null, content: '', checked: false });
-        } else {
-            setTitle('');
-            setTodos([]);
-            setTodo({ id: null, content: '', checked: false });
         }
 
-        return () => {
-            cancelled = true;
-        };
+        loadCatalogs();
+    }, [modalShow]);
+
+    useEffect(() => {
+        if (!modalShow) return;
+
+        if (!selectedList) {
+            setTitle('');
+            setCatalogId(null);
+            setTodos([]);
+            setTodo({ id: null, content: '', checked: false });
+            return;
+        }
+
+        const newList = Array.isArray(selectedList.todos)
+            ? selectedList.todos.map((td) => ({
+                ...td,
+                clientId: crypto.randomUUID(),
+            }))
+            : [];
+
+        setTitle(selectedList.title || '');
+        setCatalogId(selectedList.catalogId ?? null);
+        setTodos(newList);
+        setTodo({ id: null, content: '', checked: false });
     }, [modalShow, selectedList]);
 
     const todolists = useLoaderData();

@@ -11,11 +11,12 @@ import NoteTodolist from '../notes/ui/Todolist'
 import NoteCatalog from '../notes/ui/Catalog'
 import NoteArchive from '../notes/ui/Archive'
 import { TodoListAction, GetAllTodoList } from '../notes/api/TodoListApi'
+import { GetAllNotePad, NotePadAction } from '../notes/api/NotePadApi'
 
 const noteRoutes = {
     path: 'notes', element: <AppNotes />,
     children: [
-        { path: 'take-note', element: <NotePad /> },
+        { path: 'take-note', element: <NotePad />, action: NotePadAction, loader: GetAllNotePad },
         { path: 'todo-list', element: <NoteTodolist />, action: TodoListAction, loader: GetAllTodoList },
         { path: 'catalog', element: <NoteCatalog /> },
         { path: 'archive', element: <NoteArchive /> }
