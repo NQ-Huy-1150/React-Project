@@ -30,6 +30,39 @@ export default function AppCaseConverter() {
         setCopyMessage('');
     };
 
+    // Capitalize first letter of the text
+    const handleCapitalizeFirst = () => {
+        const result = inputText.charAt(0).toUpperCase() + inputText.slice(1);
+        setOutputText(result);
+        setCopyMessage('');
+    };
+
+    // Capitalize first letter of each word (Title Case)
+    const handleTitleCase = () => {
+        const result = inputText
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+        setOutputText(result);
+        setCopyMessage('');
+    };
+
+    // Convert to camelCase
+    const handleCamelCase = () => {
+        const result = inputText
+            .split(' ')
+            .map((word, index) => {
+                const lowerWord = word.toLowerCase();
+                if (index === 0) {
+                    return lowerWord;
+                }
+                return lowerWord.charAt(0).toUpperCase() + lowerWord.slice(1);
+            })
+            .join('');
+        setOutputText(result);
+        setCopyMessage('');
+    };
+
     const handleCopy = () => {
         if (outputText) {
             navigator.clipboard.writeText(outputText);
@@ -77,7 +110,7 @@ export default function AppCaseConverter() {
                 </div>
             </div>
 
-            <div className="mt-4 d-flex gap-2 flex-wrap">
+            <div className="mt-5 mb-5 d-flex gap-2 flex-wrap">
                 <button
                     className="btn btn-primary"
                     onClick={handleUpperCase}
@@ -95,6 +128,24 @@ export default function AppCaseConverter() {
                     onClick={handleToggleCase}
                 >
                     Toggle Case
+                </button>
+                <button
+                    className="btn btn-secondary"
+                    onClick={handleCapitalizeFirst}
+                >
+                    Capitalize First
+                </button>
+                <button
+                    className="btn btn-secondary"
+                    onClick={handleTitleCase}
+                >
+                    Title Case
+                </button>
+                <button
+                    className="btn btn-dark"
+                    onClick={handleCamelCase}
+                >
+                    Camel Case
                 </button>
                 <button
                     className="btn btn-success"
