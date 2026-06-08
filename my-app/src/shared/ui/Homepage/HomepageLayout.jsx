@@ -4,14 +4,30 @@ import NavBar from "../NavBar/NavBar";
 import SideNav from "../SideNav/SideNav";
 import Footer from "../Footer/Footer";
 import { Outlet } from 'react-router-dom'
+import AuthService from "../../../service/auth.service";
 export default function MainLayout() {
-    const [isLogin, setIsLogin] = useState(false);
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState(() => AuthService.getCurrentUser());
+    const isLogin = Boolean(userData);
+
+    const handleLoginSuccess = (user) => {
+        setUserData(user);
+    };
+
+    const handleLogout = () => {
+        AuthService.logout();
+        setUserData(null);
+    };
+
     return (
         <Container fluid className="pt-5 px-3 px-lg-4">
             <Row>
                 <Col xs={12} md={12}>
-                    <NavBar isLogin={isLogin} />
+                    <NavBar
+                        isLogin={isLogin}
+                        userData={userData}
+                        onLoginSuccess={handleLoginSuccess}
+                        onLogout={handleLogout}
+                    />
                 </Col>
             </Row>
             <Row className="g-3 mt-1">

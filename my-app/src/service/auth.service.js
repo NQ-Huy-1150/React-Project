@@ -8,11 +8,11 @@ const register = (firstName, lastName, username, email, password, phoneNumber,
     });
 };
 const login = (username, password) => {
-    return axios.post(BASE_URL + 'login', {
+    return axios.post(BASE_URL + 'signin', {
         username,
         password
     }).then(response => {
-        if (response.data.accessToken) {
+        if (response.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data));
         }
         return response.data;
