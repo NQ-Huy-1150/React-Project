@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Container, Nav, Navbar, NavDropdown, Form, Button } from 'react-bootstrap'
 import AuthModal from '../Auth/AuthModal'
+import ProfileModal from '../Profile/ProfileModal'
 
-export default function AppNavBar({ isLogin, userData, onLoginSuccess, onLogout }) {
+export default function AppNavBar({ isLogin, userData, onLoginSuccess, onLogout, onProfileUpdated }) {
   const [authModalShow, setAuthModalShow] = useState(false)
   const [authMode, setAuthMode] = useState('login')
+  const [profileModalShow, setProfileModalShow] = useState(false)
 
   const openAuthModal = (mode) => {
     setAuthMode(mode)
@@ -38,9 +40,7 @@ export default function AppNavBar({ isLogin, userData, onLoginSuccess, onLogout 
               </>
             ) : (
               <NavDropdown title={usernameLabel} id="basic-nav-dropdown">
-                <NavDropdown.Item href="">Profile</NavDropdown.Item>
-                <NavDropdown.Item href="">Settings</NavDropdown.Item>
-                <NavDropdown.Item href="">History</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => setProfileModalShow(true)}>Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={onLogout}>Logout</NavDropdown.Item>
               </NavDropdown>
@@ -54,6 +54,11 @@ export default function AppNavBar({ isLogin, userData, onLoginSuccess, onLogout 
         onHide={() => setAuthModalShow(false)}
         onLoginSuccess={onLoginSuccess}
         onSwitchMode={setAuthMode}
+      />
+      <ProfileModal
+        show={profileModalShow}
+        onHide={() => setProfileModalShow(false)}
+        onProfileUpdated={onProfileUpdated}
       />
     </>
   )

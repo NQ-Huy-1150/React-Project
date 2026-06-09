@@ -12,15 +12,17 @@ import NoteCatalog from '../notes/ui/Catalog'
 import NoteArchive from '../notes/ui/Archive'
 import { TodoListAction, GetAllTodoList } from '../notes/api/TodoListApi'
 import { GetAllNotePad, NotePadAction } from '../notes/api/NotePadApi'
+import { NotesCatalogLoader } from '../notes/api/CatalogApi'
 import { GetAllHousingExpenses, HousingExpenseAction } from '../rentCalculator/api/HousingExpenseApi'
 import { GetAllPersionalExpenses, PersionalExpensesAction } from '../spendTracker/api/PersionalExpensesApi'
 
 const noteRoutes = {
     path: 'notes', element: <AppNotes />,
     children: [
+        { index: true, element: <NoteCatalog />, loader: NotesCatalogLoader },
         { path: 'take-note', element: <NotePad />, action: NotePadAction, loader: GetAllNotePad },
         { path: 'todo-list', element: <NoteTodolist />, action: TodoListAction, loader: GetAllTodoList },
-        { path: 'catalog', element: <NoteCatalog /> },
+        { path: 'catalog', element: <NoteCatalog />, loader: NotesCatalogLoader },
         { path: 'archive', element: <NoteArchive /> }
     ]
 };

@@ -23,6 +23,11 @@ export default function MainLayout() {
         revalidator.revalidate();
     };
 
+    const handleProfileUpdated = (user) => {
+        setUserData(user);
+        revalidator.revalidate();
+    };
+
     useEffect(() => {
         const syncLogout = () => {
             setUserData(null);
@@ -43,6 +48,7 @@ export default function MainLayout() {
                         userData={userData}
                         onLoginSuccess={handleLoginSuccess}
                         onLogout={handleLogout}
+                        onProfileUpdated={handleProfileUpdated}
                     />
                 </Col>
             </Row>

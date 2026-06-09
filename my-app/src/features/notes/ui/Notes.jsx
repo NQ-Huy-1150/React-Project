@@ -1,10 +1,9 @@
-import { Row, Col, Container, Nav } from 'react-bootstrap'
+import { Row, Col, Container } from 'react-bootstrap'
 import { Outlet, Link } from 'react-router-dom'
 const pageList = [
-    { name: "Notepad", link: 'take-note' },
-    { name: "Todo-list", link: 'todo-list' },
-    { name: "Catalog", link: 'catalog' },
-    { name: "Archive", link: 'archive' }
+    { name: "Overview", link: '/notes' },
+    { name: "Notepad", link: '/notes/take-note' },
+    { name: "Todo-list", link: '/notes/todo-list' },
 ]
 export default function AppNotes() {
     return (
