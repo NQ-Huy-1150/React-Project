@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Alert, Badge, Button, Card, Col, Form, Modal, Row } from 'react-bootstrap';
 import { useFetcher, useLoaderData } from 'react-router-dom';
 
@@ -98,6 +98,7 @@ export default function AppRentCalculator() {
     const [selectedExpense, setSelectedExpense] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const [error, setError] = useState('');
+    const didSubmitRef = useRef(false);
 
     const electricityBill = toNumber(form.amoutOfElectric) * toNumber(form.electricityPrice);
     const waterBill = toNumber(form.amoutOfWater) * toNumber(form.waterPrice);
@@ -151,13 +152,20 @@ export default function AppRentCalculator() {
     }, [fetcher.data]);
 
     useEffect(() => {
-        if (fetcher.state !== 'idle' || !fetcher.formData) return;
+        if (isSaving) {
+            didSubmitRef.current = true;
+            return;
+        }
+
+        if (!didSubmitRef.current) return;
+        didSubmitRef.current = false;
+
         if (fetcher.data?.error) return;
 
         if (modalShow) {
             closeModal();
         }
-    }, [fetcher.state, fetcher.formData, fetcher.data, modalShow]);
+    }, [isSaving, fetcher.data, modalShow]);
 
     return (
         <>

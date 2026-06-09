@@ -1,31 +1,35 @@
-import axios from "axios";
-const BASE_URL = "http://localhost:8080/api/v1/note/";
+import apiClient from "../../../service/apiClient";
+import { requireAuth } from "../../../service/authGuard";
+
+const BASE_URL = "/api/v1/note/";
 export const CreateNotePad = async (payload) => {
-    return axios.post(BASE_URL + "create-notepad", payload)
+    return apiClient.post(BASE_URL + "create-notepad", payload)
         .then(response => {
             console.log(response.data);
         });
 }
 export const UpdateNotePad = async (payload) => {
-    return axios.put(BASE_URL + "update-notepad", payload)
+    return apiClient.put(BASE_URL + "update-notepad", payload)
         .then(response => {
             console.log(response.data);
         });
 }
 export const GetAllNotePad = async () => {
-    return axios.get(BASE_URL + "get-all-notes")
+    requireAuth();
+    return apiClient.get(BASE_URL + "get-all-notes")
         .then(response => {
             return response.data;
         });
 }
 export const GetDeleteById = (id) => {
-    return axios.delete(BASE_URL + `delete/${id}`)
+    return apiClient.delete(BASE_URL + `delete/${id}`)
         .then(response => {
             console.log(response.data);
         });;
 }
 export const NotePadAction = async ({ request }) => {
     try {
+        requireAuth();
         const dataForm = await request.formData();
         const intent = dataForm.get("intent");
         const rawId = dataForm.get("id");

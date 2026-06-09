@@ -1,14 +1,15 @@
-import axios from 'axios';
-const BASE_URL = "http://localhost:8080/api/v1/auth/";
+import apiClient from './apiClient';
+
+const BASE_URL = "/api/v1/auth/";
 const register = (firstName, lastName, username, email, password, phoneNumber,
     confirmPassword) => {
-    return axios.post(BASE_URL + 'signup', {
+    return apiClient.post(BASE_URL + 'signup', {
         firstName, lastName, username,
         email, password, confirmPassword, phoneNumber
     });
 };
 const login = (username, password) => {
-    return axios.post(BASE_URL + 'signin', {
+    return apiClient.post(BASE_URL + 'signin', {
         username,
         password
     }).then(response => {
@@ -20,6 +21,7 @@ const login = (username, password) => {
 };
 const logout = () => {
     localStorage.removeItem('user');
+    window.dispatchEvent(new Event('auth:logout'));
 }
 const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem('user'));

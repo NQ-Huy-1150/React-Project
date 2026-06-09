@@ -1,37 +1,41 @@
-import axios from "axios";
-const BASE_URL = "http://localhost:8080/api/v1/";
+import apiClient from "../../../service/apiClient";
+import { requireAuth } from "../../../service/authGuard";
+
+const BASE_URL = "/api/v1/";
 export const CreateTodoList = async (payload) => {
-    return axios.post(BASE_URL + "create-todolist", payload)
+    return apiClient.post(BASE_URL + "create-todolist", payload)
         .then(response => {
             console.log(response.data);
         });
 }
 export const ModifyTodoList = async (payload) => {
-    return axios.put(BASE_URL + "modify-todolist", payload)
+    return apiClient.put(BASE_URL + "modify-todolist", payload)
         .then(response => {
             console.log(response.data);
         });
 }
 export const GetAllTodoList = async () => {
-    return axios.get(BASE_URL + "get-todolists")
+    requireAuth();
+    return apiClient.get(BASE_URL + "get-todolists")
         .then(response => {
             return response.data;
         });
 }
 export const GetTodoListById = async (id = 1) => {
-    return axios.get(BASE_URL + `todolist/${id}`)
+    return apiClient.get(BASE_URL + `todolist/${id}`)
         .then(response => {
             return response.data;
         });
 }
 export const GetDeleteById = (id) => {
-    return axios.delete(BASE_URL + `delete/${id}`)
+    return apiClient.delete(BASE_URL + `delete/${id}`)
         .then(response => {
             console.log(response.data);
         });;
 }
 export const TodoListAction = async ({ request }) => {
     try {
+        requireAuth();
         const dataForm = await request.formData();
         const intent = dataForm.get("intent");
         const rawId = dataForm.get("id");

@@ -212,6 +212,7 @@ export default function NoteTodolist() {
     const todolists = useLoaderData();
     const fetcher = useFetcher();
     const isSaving = fetcher.state !== "idle";
+    const didSubmitRef = useRef(false);
 
     useEffect(() => {
         if (fetcher.data?.error) {
@@ -223,14 +224,20 @@ export default function NoteTodolist() {
     }, [fetcher.data]);
 
     useEffect(() => {
-        if (fetcher.state !== "idle") return;
+        if (isSaving) {
+            didSubmitRef.current = true;
+            return;
+        }
+
+        if (!didSubmitRef.current) return;
+        didSubmitRef.current = false;
+
         if (fetcher.data?.error) return;
-        if (!fetcher.data?.message) return;
 
         if (modalShow) {
             closeModal();
         }
-    }, [fetcher.state, fetcher.data, modalShow]);
+    }, [isSaving, fetcher.data, modalShow]);
 
     const handleCreateNewTodo = () => {
         openModalWithList(null);

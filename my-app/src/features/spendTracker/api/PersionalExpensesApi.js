@@ -1,26 +1,27 @@
-import axios from 'axios';
+import apiClient from '../../../service/apiClient';
+import { requireAuth } from '../../../service/authGuard';
 
-const BASE_URL = 'http://localhost:8080/persionalexpensives';
+const BASE_URL = '/persionalexpensives';
 
 const unwrapResult = (response) => response.data?.result ?? response.data;
 
 export const getAllPersionalExpenses = async () => {
-    const response = await axios.get(BASE_URL);
+    const response = await apiClient.get(BASE_URL);
     return unwrapResult(response);
 };
 
 export const createPersionalExpense = async (payload) => {
-    const response = await axios.post(BASE_URL, payload);
+    const response = await apiClient.post(BASE_URL, payload);
     return unwrapResult(response);
 };
 
 export const updatePersionalExpense = async (id, payload) => {
-    const response = await axios.put(`${BASE_URL}/${id}`, payload);
+    const response = await apiClient.put(`${BASE_URL}/${id}`, payload);
     return unwrapResult(response);
 };
 
 export const deletePersionalExpense = async (id) => {
-    const response = await axios.delete(`${BASE_URL}/${id}`);
+    const response = await apiClient.delete(`${BASE_URL}/${id}`);
     return unwrapResult(response);
 };
 
@@ -30,11 +31,13 @@ const toNumber = (value) => {
 };
 
 export const GetAllPersionalExpenses = async () => {
+    requireAuth();
     return getAllPersionalExpenses();
 };
 
 export const PersionalExpensesAction = async ({ request }) => {
     try {
+        requireAuth();
         const formData = await request.formData();
         const intent = formData.get('intent');
         const id = formData.get('id')?.toString() || null;

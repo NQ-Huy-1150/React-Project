@@ -93,6 +93,7 @@ export default function NotePad() {
     const [catalogId, setCatalogId] = useState(null);
     const fetcher = useFetcher();
     const isSaving = fetcher.state !== 'idle';
+    const didSubmitRef = useRef(false);
     if (status === 'success') {
         return alert('Save successfully !');
     }
@@ -149,14 +150,20 @@ export default function NotePad() {
     }, [fetcher.data]);
 
     useEffect(() => {
-        if (fetcher.state !== 'idle') return;
+        if (isSaving) {
+            didSubmitRef.current = true;
+            return;
+        }
+
+        if (!didSubmitRef.current) return;
+        didSubmitRef.current = false;
+
         if (fetcher.data?.error) return;
-        if (!fetcher.data?.message) return;
 
         if (modalShow) {
             closeModal();
         }
-    }, [fetcher.state, fetcher.data, modalShow]);
+    }, [isSaving, fetcher.data, modalShow]);
 
     const handleCreateNotePad = () => {
         openModalWithNote(null);
