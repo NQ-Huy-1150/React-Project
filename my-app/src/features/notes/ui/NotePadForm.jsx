@@ -1,19 +1,18 @@
-import { Form } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
-export default function GetNotePadForm({ note, onHide, status, catalogId, currentId }) {
+export default function GetNotePadForm({ note, onHide, fetcher, isSaving, catalogId, currentId }) {
     return (
-        <Form method='post'>
-            <input className='d-none' name='id' type='hidden' value={currentId} />
-            <input className='d-none' name='title' type='hidden' value={note.title == '' ? 'Untitled note' : note.title} />
-            <textarea className='d-none' name='content' value={note.contentText} ></textarea>
-            <input className='d-none' name='catalogId' type='hidden' value={catalogId ?? ''} />
+        <fetcher.Form method='post'>
+            <input className='d-none' name='id' type='hidden' value={currentId} readOnly />
+            <input className='d-none' name='title' type='hidden' value={note.title == '' ? 'Untitled note' : note.title} readOnly />
+            <textarea className='d-none' name='content' value={note.contentText} readOnly ></textarea>
+            <input className='d-none' name='catalogId' type='hidden' value={catalogId ?? ''} readOnly />
             <Button className='me-3'
                 type='submit'
                 disabled={
-                    note.contentText.length === 0 || status === 'submitting'
+                    note.contentText.length === 0 || isSaving
                 }
             >Save</Button>
-            <Button variant='secondary' onClick={onHide}>Close</Button>
-        </Form>
+            <Button variant='secondary' onClick={onHide} disabled={isSaving}>Close</Button>
+        </fetcher.Form>
     );
 }

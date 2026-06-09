@@ -33,8 +33,16 @@ export const GetDeleteById = (id) => {
 export const TodoListAction = async ({ request }) => {
     try {
         const dataForm = await request.formData();
+        const intent = dataForm.get("intent");
         const rawId = dataForm.get("id");
         const id = rawId ? +rawId : null;
+
+        if (intent === "delete") {
+            if (id == null) return { error: "Todo list id is required." };
+            await GetDeleteById(id);
+            return { message: "Deleted successfully." };
+        }
+
         const rawCatalogId = dataForm.get('catalogId');
         const catalogId = rawCatalogId ? +rawCatalogId : null;
         const payload = {
@@ -54,6 +62,8 @@ export const TodoListAction = async ({ request }) => {
         else {
             await ModifyTodoList(payload);
         }
+
+        return { message: "Saved successfully." };
 
     } catch (error) {
         return {

@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
-import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Card, Form, Row, Col } from 'react-bootstrap';
 import GetNotePadForm from './NotePadForm';
 import '../css/Styles.css'
 import CatalogDropdown from './CatalogDropdown';
-import { useLoaderData } from 'react-router-dom';
+import { useFetcher, useLoaderData } from 'react-router-dom';
 import ShowNoteCard from './NotePadCardLayout';
 import { getAllCatalog } from '../api/CatalogApi';
 
 function ModalInput({ show, onHide, note, onTitleChange,
-    onContentInput, status, currentId, catalogId, setCatalogId, cataList }) {
+    onContentInput, status, currentId, catalogId, setCatalogId, cataList,
+    error, fetcher, isSaving }) {
     const contentRef = useRef(null);
 
     useEffect(() => {
@@ -23,6 +24,7 @@ function ModalInput({ show, onHide, note, onTitleChange,
             onHide={onHide}
             size="lg"
             centered
+            backdrop={isSaving ? "static" : undefined}
         >
             <Modal.Header closeButton>
                 <Modal.Title>
@@ -58,11 +60,20 @@ function ModalInput({ show, onHide, note, onTitleChange,
                             onInput={onContentInput}
                         >
                         </div>
+                        {error && <p className='fw-bold text-danger'>{error}</p>}
                     </Col>
                 </Row>
             </Modal.Body>
             <Modal.Footer>
-                <GetNotePadForm note={note} onHide={onHide} status={status} currentId={currentId} catalogId={catalogId} />
+                <GetNotePadForm
+                    note={note}
+                    onHide={onHide}
+                    status={status}
+                    fetcher={fetcher}
+                    isSaving={isSaving}
+                    currentId={currentId}
+                    catalogId={catalogId}
+                />
             </Modal.Footer>
         </Modal>
     );
@@ -80,6 +91,8 @@ export default function NotePad() {
     const [cataList, setCataList] = useState(null);
     const [currentId, setCurrentId] = useState(0);
     const [catalogId, setCatalogId] = useState(null);
+    const fetcher = useFetcher();
+    const isSaving = fetcher.state !== 'idle';
     if (status === 'success') {
         return alert('Save successfully !');
     }
@@ -89,6 +102,15 @@ export default function NotePad() {
         setModalShow(true);
     }
     const notes = useLoaderData();
+
+    const closeModal = () => {
+        setModalShow(false);
+        setSelectedNote(null);
+        setCurrentId(null);
+        setCatalogId(null);
+        setNote({ id: null, title: '', contentText: '' });
+        setError(null);
+    };
 
     useEffect(() => {
         if (!modalShow) return;
@@ -116,10 +138,40 @@ export default function NotePad() {
         setNote({ id: selectedNote.id, title: selectedNote.title, contentText: selectedNote.content });
         setCatalogId(selectedNote.catalogId ?? null);
     }, [modalShow, selectedNote]);
+
+    useEffect(() => {
+        if (fetcher.data?.error) {
+            setError(fetcher.data.error);
+        }
+        if (fetcher.data?.message) {
+            setError(null);
+        }
+    }, [fetcher.data]);
+
+    useEffect(() => {
+        if (fetcher.state !== 'idle') return;
+        if (fetcher.data?.error) return;
+        if (!fetcher.data?.message) return;
+
+        if (modalShow) {
+            closeModal();
+        }
+    }, [fetcher.state, fetcher.data, modalShow]);
+
     const handleCreateNotePad = () => {
         openModalWithNote(null);
         setCatalogId(null);
     }
+
+    const handleDeleteNote = (id) => {
+        if (!id) return;
+        setError(null);
+        fetcher.submit(
+            { intent: 'delete', id },
+            { method: 'post' }
+        );
+    };
+
     return (
         <>
             <Row>
@@ -132,10 +184,7 @@ export default function NotePad() {
                     <ModalInput
                         status={status}
                         show={modalShow}
-                        onHide={() => {
-                            setModalShow(false);
-                            setNote({ id: null, title: '', contentText: '' })
-                        }}
+                        onHide={closeModal}
                         note={note}
                         onTitleChange={(e) => {
                             setNote((note) => ({ ...note, title: e.target.value }));
@@ -154,14 +203,35 @@ export default function NotePad() {
                         currentId={currentId}
                         catalogId={catalogId}
                         setCatalogId={setCatalogId}
+                        error={error}
+                        fetcher={fetcher}
+                        isSaving={isSaving}
 
                     />
                 </Col>
             </Row>
 
-            <Row>
-                {notes.map(note =>
-                    <ShowNoteCard key={note.id} note={note} openModalWithNote={openModalWithNote} />
+            <Row className='mt-2 justify-content-center'>
+                {notes.length > 0 ? (
+                    notes.map(note =>
+                        <ShowNoteCard
+                            key={note.id}
+                            note={note}
+                            openModalWithNote={openModalWithNote}
+                            onDelete={handleDeleteNote}
+                            isSaving={isSaving}
+                        />
+                    )
+                ) : (
+                    <Col xs={12}>
+                        <Card className="border-0 bg-light">
+                            <Card.Body className="text-center py-5">
+                                <h5>No note yet</h5>
+                                <p className="text-muted">Create your first note.</p>
+                                <Button onClick={handleCreateNotePad}>Create now</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
                 )}
             </Row>
 

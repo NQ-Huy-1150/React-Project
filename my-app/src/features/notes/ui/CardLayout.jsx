@@ -1,12 +1,12 @@
 import { Card, Button, ListGroup } from 'react-bootstrap';
-import { Fragment, useState } from 'react';
-import { GetDeleteById } from '../api/TodoListApi';
-export default function ShowCard({ todo, openModalWithList }) {
+import { Fragment } from 'react';
+
+export default function ShowCard({ todo, openModalWithList, onDelete, isSaving }) {
     const handleUpdate = () => {
         openModalWithList(todo);
     }
     const handleDelete = () => {
-        GetDeleteById(todo.id);
+        onDelete(todo.id);
     }
     return (
         <Card className='me-3 mt-2' style={{ width: '18rem' }}>
@@ -23,8 +23,8 @@ export default function ShowCard({ todo, openModalWithList }) {
             </Card.Body>
             <Card.Footer>
                 <div className="d-flex justify-content-center align-items-center">
-                    <Button className="me-2" size='sm' variant="warning" onClick={handleUpdate}>Update</Button>
-                    <Button size='sm' variant="danger" onClick={handleDelete}>Delete</Button>
+                    <Button className="me-2" size='sm' variant="warning" onClick={handleUpdate} disabled={isSaving}>Update</Button>
+                    <Button size='sm' variant="danger" onClick={handleDelete} disabled={isSaving}>Delete</Button>
                 </div>
             </Card.Footer>
         </Card>

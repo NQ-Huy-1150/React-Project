@@ -27,8 +27,16 @@ export const GetDeleteById = (id) => {
 export const NotePadAction = async ({ request }) => {
     try {
         const dataForm = await request.formData();
+        const intent = dataForm.get("intent");
         const rawId = dataForm.get("id");
         const id = rawId ? +rawId : null;
+
+        if (intent === "delete") {
+            if (id == null) return { error: "Note id is required." };
+            await GetDeleteById(id);
+            return { message: "Deleted successfully." };
+        }
+
         const rawCatalogId = dataForm.get('catalogId');
         const catalogId = rawCatalogId ? +rawCatalogId : null;
         const payload = {
@@ -49,6 +57,8 @@ export const NotePadAction = async ({ request }) => {
         else {
             await UpdateNotePad(payload);
         }
+
+        return { message: "Saved successfully." };
 
     } catch (error) {
         return {

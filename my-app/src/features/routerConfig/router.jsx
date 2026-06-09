@@ -12,6 +12,8 @@ import NoteCatalog from '../notes/ui/Catalog'
 import NoteArchive from '../notes/ui/Archive'
 import { TodoListAction, GetAllTodoList } from '../notes/api/TodoListApi'
 import { GetAllNotePad, NotePadAction } from '../notes/api/NotePadApi'
+import { GetAllHousingExpenses, HousingExpenseAction } from '../rentCalculator/api/HousingExpenseApi'
+import { GetAllPersionalExpenses, PersionalExpensesAction } from '../spendTracker/api/PersionalExpensesApi'
 
 const noteRoutes = {
     path: 'notes', element: <AppNotes />,
@@ -29,9 +31,19 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Hello /> },
             { path: 'case-converter', element: <AppCaseConverter /> },
-            { path: 'rent-calculator', element: <AppRentCalculator /> },
+            {
+                path: 'rent-calculator',
+                element: <AppRentCalculator />,
+                loader: GetAllHousingExpenses,
+                action: HousingExpenseAction
+            },
             { path: 'letter-counter', element: <AppLetterCounter /> },
-            { path: 'spend-tracker', element: <AppSpendTracker /> },
+            {
+                path: 'spend-tracker',
+                element: <AppSpendTracker />,
+                loader: GetAllPersionalExpenses,
+                action: PersionalExpensesAction
+            },
             noteRoutes
         ]
     }

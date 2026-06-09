@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Modal, Button, Row, Col, Form, ListGroup } from 'react-bootstrap';
+import { Modal, Button, Card, Row, Col, Form } from 'react-bootstrap';
 import { useLoaderData, useFetcher } from 'react-router-dom';
 import '../css/Styles.css'
 import GetTodoList from './TodolistForm';
@@ -159,6 +159,17 @@ export default function NoteTodolist() {
         setModalShow(true);
     };
 
+    const closeModal = () => {
+        setModalShow(false);
+        setSelectedList(null);
+        setCurrentId(null);
+        setCatalogId(null);
+        setTitle('');
+        setTodos([]);
+        setTodo({ id: null, content: '', checked: false });
+        setError('');
+    };
+
     useEffect(() => {
         if (!modalShow) return;
 
@@ -206,19 +217,34 @@ export default function NoteTodolist() {
         if (fetcher.data?.error) {
             setError(fetcher.data.error);
         }
+        if (fetcher.data?.message) {
+            setError('');
+        }
     }, [fetcher.data]);
 
     useEffect(() => {
-        if (fetcher.state !== "idle" || !fetcher.formData) return;
+        if (fetcher.state !== "idle") return;
         if (fetcher.data?.error) return;
+        if (!fetcher.data?.message) return;
 
-        setModalShow(false);
-    }, [fetcher.state, fetcher.formData, fetcher.data]);
+        if (modalShow) {
+            closeModal();
+        }
+    }, [fetcher.state, fetcher.data, modalShow]);
 
     const handleCreateNewTodo = () => {
         openModalWithList(null);
         setCatalogId(null);
     }
+
+    const handleDeleteTodoList = (id) => {
+        if (!id) return;
+        setError('');
+        fetcher.submit(
+            { intent: 'delete', id },
+            { method: 'post' }
+        );
+    };
 
     return (
         <>
@@ -232,9 +258,7 @@ export default function NoteTodolist() {
                     <ModalInput
                         show={modalShow}
                         title={title}
-                        onHide={() => {
-                            setModalShow(false);
-                        }}
+                        onHide={closeModal}
                         onTitleChange={(e) => {
                             setTitle(e.target.value);
                         }}
@@ -267,13 +291,27 @@ export default function NoteTodolist() {
                 </Col>
             </Row>
             <Row className='mt-2 justify-content-center'>
-                {todolists.map(todo => (
-                    <ShowCard
-                        key={todo.id}
-                        todo={todo}
-                        openModalWithList={openModalWithList}
-                    />
-                ))}
+                {todolists.length > 0 ? (
+                    todolists.map(todo => (
+                        <ShowCard
+                            key={todo.id}
+                            todo={todo}
+                            openModalWithList={openModalWithList}
+                            onDelete={handleDeleteTodoList}
+                            isSaving={isSaving}
+                        />
+                    ))
+                ) : (
+                    <Col xs={12}>
+                        <Card className="border-0 bg-light">
+                            <Card.Body className="text-center py-5">
+                                <h5>No todo list yet</h5>
+                                <p className="text-muted">Create your first todo list.</p>
+                                <Button onClick={handleCreateNewTodo}>Create now</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                )}
             </Row>
         </>
 
