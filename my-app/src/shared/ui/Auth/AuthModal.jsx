@@ -108,6 +108,8 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                                 onChange={handleLoginChange}
                                 placeholder="Nhập tên đăng nhập"
                                 autoComplete="username"
+                                required
+                                minLength={5}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="loginPassword">
@@ -119,6 +121,8 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                                 onChange={handleLoginChange}
                                 placeholder="Nhập mật khẩu"
                                 autoComplete="current-password"
+                                required
+                                minLength={5}
                             />
                         </Form.Group>
                         <Button type="submit" className="w-100" disabled={submitting}>
@@ -135,6 +139,8 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                                         name="firstName"
                                         value={registerForm.firstName}
                                         onChange={handleRegisterChange}
+                                        required
+                                        minLength={3}
                                         placeholder="Tên"
                                     />
                                 </Form.Group>
@@ -146,6 +152,7 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                                         name="lastName"
                                         value={registerForm.lastName}
                                         onChange={handleRegisterChange}
+                                        required
                                         placeholder="Họ"
                                     />
                                 </Form.Group>
@@ -159,6 +166,8 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                                 onChange={handleRegisterChange}
                                 placeholder="Tên đăng nhập"
                                 autoComplete="username"
+                                required
+                                minLength={5}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="registerEmail">
@@ -170,6 +179,7 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                                 onChange={handleRegisterChange}
                                 placeholder="name@example.com"
                                 autoComplete="email"
+                                required
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="registerPhoneNumber">
@@ -180,6 +190,9 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                                 onChange={handleRegisterChange}
                                 placeholder="Số điện thoại"
                                 autoComplete="tel"
+                                required
+                                minLength={10}
+                                pattern="[0-9+\s-]{10,15}"
                             />
                         </Form.Group>
                         <Row>
@@ -193,6 +206,8 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                                         onChange={handleRegisterChange}
                                         placeholder="Mật khẩu"
                                         autoComplete="new-password"
+                                        required
+                                        minLength={6}
                                     />
                                 </Form.Group>
                             </Col>
@@ -206,6 +221,8 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                                         onChange={handleRegisterChange}
                                         placeholder="Xác nhận mật khẩu"
                                         autoComplete="new-password"
+                                        required
+                                        minLength={6}
                                     />
                                 </Form.Group>
                             </Col>

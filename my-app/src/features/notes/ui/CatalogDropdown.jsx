@@ -167,6 +167,8 @@ export default function CatalogDropdown({
                             placeholder="Catalog mới..."
                             value={cata.title}
                             onChange={(e) => setCata((prev) => ({ ...prev, title: e.target.value }))}
+                            required
+                            maxLength={80}
                         />
                     </Col>
                     <Col xs={12} md={3}>

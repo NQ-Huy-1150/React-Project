@@ -252,6 +252,7 @@ export default function AppSpendTracker() {
                                         name="month"
                                         value={form.month}
                                         onChange={handleInputChange}
+                                        required
                                     />
                                 </Form.Group>
                             </Col>
@@ -265,6 +266,7 @@ export default function AppSpendTracker() {
                                         name="totalIncome"
                                         value={form.totalIncome}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="Thu nhập hàng tháng"
                                     />
                                 </Form.Group>
@@ -280,6 +282,7 @@ export default function AppSpendTracker() {
                                         name="houseCost"
                                         value={form.houseCost}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="Tiền thuê / chi phí nhà ở"
                                     />
                                 </Form.Group>
@@ -294,6 +297,7 @@ export default function AppSpendTracker() {
                                         name="foodCost"
                                         value={form.foodCost}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="Chi phí ăn uống"
                                     />
                                 </Form.Group>
@@ -309,6 +313,7 @@ export default function AppSpendTracker() {
                                         name="traveCost"
                                         value={form.traveCost}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="Chi phí di chuyển"
                                     />
                                 </Form.Group>
@@ -323,6 +328,7 @@ export default function AppSpendTracker() {
                                         name="savingAndInvestment"
                                         value={form.savingAndInvestment}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="Tiết kiệm / đầu tư"
                                     />
                                 </Form.Group>

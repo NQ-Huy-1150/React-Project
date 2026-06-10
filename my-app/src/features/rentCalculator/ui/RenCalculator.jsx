@@ -237,6 +237,7 @@ export default function AppRentCalculator() {
                                         name="month"
                                         value={form.month}
                                         onChange={handleInputChange}
+                                        required
                                     />
                                 </Form.Group>
                             </Col>
@@ -250,6 +251,7 @@ export default function AppRentCalculator() {
                                         name="housePrice"
                                         value={form.housePrice}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="Tiền thuê nhà"
                                     />
                                 </Form.Group>
@@ -265,6 +267,7 @@ export default function AppRentCalculator() {
                                         name="amoutOfElectric"
                                         value={form.amoutOfElectric}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="kWh"
                                     />
                                 </Form.Group>
@@ -279,6 +282,7 @@ export default function AppRentCalculator() {
                                         name="electricityPrice"
                                         value={form.electricityPrice}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="Giá mỗi kWh"
                                     />
                                 </Form.Group>
@@ -294,6 +298,7 @@ export default function AppRentCalculator() {
                                         name="amoutOfWater"
                                         value={form.amoutOfWater}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="m3"
                                     />
                                 </Form.Group>
@@ -308,6 +313,7 @@ export default function AppRentCalculator() {
                                         name="waterPrice"
                                         value={form.waterPrice}
                                         onChange={handleInputChange}
+                                        required
                                         placeholder="Giá mỗi m3"
                                     />
                                 </Form.Group>

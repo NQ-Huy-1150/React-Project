@@ -122,6 +122,8 @@ export default function ProfileModal({ show, onHide, onProfileUpdated }) {
                                 name="fullName"
                                 value={profile.fullName}
                                 onChange={handleChange}
+                                required
+                                minLength={3}
                                 placeholder="Nhập họ và tên"
                             />
                         </Form.Group>
@@ -150,6 +152,8 @@ export default function ProfileModal({ show, onHide, onProfileUpdated }) {
                                 onChange={handleChange}
                                 placeholder="Số điện thoại"
                                 autoComplete="tel"
+                                minLength={10}
+                                pattern="[0-9+\s-]{10,15}"
                             />
                         </Form.Group>
 

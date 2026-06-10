@@ -7,7 +7,7 @@ export default function GetTodoList({ title, onHide, todos, fetcher, isSaving, c
                 <input className='d-none' type="hidden" name="catalogId" value={catalogId ?? ''} />
                 <input className='d-none' type="hidden" name='title' value={title} />
                 <input className='d-none' type="hidden" name='items' value={JSON.stringify(todos)} />
-                <Button className='me-3' type='submit' disabled={isSaving}>Lưu</Button>
+                <Button className='me-3' type='submit' disabled={isSaving || todos.length === 0}>Lưu</Button>
                 <Button variant='secondary' onClick={onHide} disabled={isSaving}>Đóng</Button>
             </fetcher.Form>
         </>

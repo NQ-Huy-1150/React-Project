@@ -98,6 +98,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange,
                                 className='mb-3 form-control'
                                 value={title}
                                 onChange={onTitleChange}
+                                maxLength={120}
                             />
                         </Col>
                         <Row className='mb-3'>
@@ -113,6 +114,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange,
                                 className='mb-3 form-control'
                                 value={todo.content}
                                 onChange={onContentInput}
+                                maxLength={255}
                             />
                         </Col>
                         <Col xs={12} md={3}>

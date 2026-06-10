@@ -41,6 +41,7 @@ function ModalInput({ show, onHide, note, onTitleChange,
                                 value={note.title}
                                 onChange={onTitleChange}
                                 disabled={status === 'submiting'}
+                                maxLength={120}
                             />
                         </Form>
                     </Col>
