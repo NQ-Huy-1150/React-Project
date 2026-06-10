@@ -43,9 +43,9 @@ export const PersionalExpensesAction = async ({ request }) => {
         const id = formData.get('id')?.toString() || null;
 
         if (intent === 'delete') {
-            if (!id) return { error: 'Expense id is required.' };
+            if (!id) return { error: 'Thiếu mã ghi nhận chi tiêu.' };
             await deletePersionalExpense(id);
-            return { message: 'Deleted successfully.' };
+            return { message: 'Xóa thành công.' };
         }
 
         const payload = {
@@ -66,10 +66,10 @@ export const PersionalExpensesAction = async ({ request }) => {
             await createPersionalExpense(payload);
         }
 
-        return { message: 'Saved successfully.' };
+        return { message: 'Lưu thành công.' };
     } catch (error) {
         return {
-            error: error.response?.data?.message || 'Cannot save personal expense.',
+            error: error.response?.data?.message || 'Không thể lưu ghi nhận chi tiêu.',
         };
     }
 };

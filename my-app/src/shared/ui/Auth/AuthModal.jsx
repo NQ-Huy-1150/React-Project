@@ -54,7 +54,7 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
             onLoginSuccess?.(user);
             closeModal();
         } catch (error) {
-            setMessage(error.response?.data?.message || 'Login failed. Please check your account again.');
+            setMessage(error.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại tài khoản.');
         } finally {
             setSubmitting(false);
         }
@@ -65,7 +65,7 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
         setMessage('');
 
         if (registerForm.password !== registerForm.confirmPassword) {
-            setMessage('Password and confirm password do not match.');
+            setMessage('Mật khẩu xác nhận không khớp.');
             return;
         }
 
@@ -81,10 +81,10 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                 registerForm.confirmPassword
             );
             setRegisterForm(initialRegisterForm);
-            setMessage('Register successfully. You can login now.');
+            setMessage('Đăng ký thành công. Bạn có thể đăng nhập ngay.');
             onSwitchMode?.('login');
         } catch (error) {
-            setMessage(error.response?.data?.message || 'Register failed. Please try again.');
+            setMessage(error.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.');
         } finally {
             setSubmitting(false);
         }
@@ -93,36 +93,36 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
     return (
         <Modal show={show} onHide={closeModal} centered>
             <Modal.Header closeButton>
-                <Modal.Title>{isLogin ? 'Login' : 'Create account'}</Modal.Title>
+                <Modal.Title>{isLogin ? 'Đăng nhập' : 'Tạo tài khoản'}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {message && <Alert variant={message.includes('successfully') ? 'success' : 'danger'}>{message}</Alert>}
+                {message && <Alert variant={message.includes('thành công') ? 'success' : 'danger'}>{message}</Alert>}
 
                 {isLogin ? (
                     <Form onSubmit={handleLoginSubmit}>
                         <Form.Group className="mb-3" controlId="loginUsername">
-                            <Form.Label>Username</Form.Label>
+                            <Form.Label>Tên đăng nhập</Form.Label>
                             <Form.Control
                                 name="username"
                                 value={loginForm.username}
                                 onChange={handleLoginChange}
-                                placeholder="Enter username"
+                                placeholder="Nhập tên đăng nhập"
                                 autoComplete="username"
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="loginPassword">
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>Mật khẩu</Form.Label>
                             <Form.Control
                                 type="password"
                                 name="password"
                                 value={loginForm.password}
                                 onChange={handleLoginChange}
-                                placeholder="Enter password"
+                                placeholder="Nhập mật khẩu"
                                 autoComplete="current-password"
                             />
                         </Form.Group>
                         <Button type="submit" className="w-100" disabled={submitting}>
-                            {submitting ? 'Logging in...' : 'Login'}
+                            {submitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
                         </Button>
                     </Form>
                 ) : (
@@ -130,34 +130,34 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                         <Row>
                             <Col sm={6}>
                                 <Form.Group className="mb-3" controlId="registerFirstName">
-                                    <Form.Label>First name</Form.Label>
+                                    <Form.Label>Tên</Form.Label>
                                     <Form.Control
                                         name="firstName"
                                         value={registerForm.firstName}
                                         onChange={handleRegisterChange}
-                                        placeholder="First name"
+                                        placeholder="Tên"
                                     />
                                 </Form.Group>
                             </Col>
                             <Col sm={6}>
                                 <Form.Group className="mb-3" controlId="registerLastName">
-                                    <Form.Label>Last name</Form.Label>
+                                    <Form.Label>Họ</Form.Label>
                                     <Form.Control
                                         name="lastName"
                                         value={registerForm.lastName}
                                         onChange={handleRegisterChange}
-                                        placeholder="Last name"
+                                        placeholder="Họ"
                                     />
                                 </Form.Group>
                             </Col>
                         </Row>
                         <Form.Group className="mb-3" controlId="registerUsername">
-                            <Form.Label>Username</Form.Label>
+                            <Form.Label>Tên đăng nhập</Form.Label>
                             <Form.Control
                                 name="username"
                                 value={registerForm.username}
                                 onChange={handleRegisterChange}
-                                placeholder="Username"
+                                placeholder="Tên đăng nhập"
                                 autoComplete="username"
                             />
                         </Form.Group>
@@ -173,45 +173,45 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="registerPhoneNumber">
-                            <Form.Label>Phone number</Form.Label>
+                            <Form.Label>Số điện thoại</Form.Label>
                             <Form.Control
                                 name="phoneNumber"
                                 value={registerForm.phoneNumber}
                                 onChange={handleRegisterChange}
-                                placeholder="Phone number"
+                                placeholder="Số điện thoại"
                                 autoComplete="tel"
                             />
                         </Form.Group>
                         <Row>
                             <Col sm={6}>
                                 <Form.Group className="mb-3" controlId="registerPassword">
-                                    <Form.Label>Password</Form.Label>
+                                    <Form.Label>Mật khẩu</Form.Label>
                                     <Form.Control
                                         type="password"
                                         name="password"
                                         value={registerForm.password}
                                         onChange={handleRegisterChange}
-                                        placeholder="Password"
+                                        placeholder="Mật khẩu"
                                         autoComplete="new-password"
                                     />
                                 </Form.Group>
                             </Col>
                             <Col sm={6}>
                                 <Form.Group className="mb-3" controlId="registerConfirmPassword">
-                                    <Form.Label>Confirm</Form.Label>
+                                    <Form.Label>Xác nhận</Form.Label>
                                     <Form.Control
                                         type="password"
                                         name="confirmPassword"
                                         value={registerForm.confirmPassword}
                                         onChange={handleRegisterChange}
-                                        placeholder="Confirm password"
+                                        placeholder="Xác nhận mật khẩu"
                                         autoComplete="new-password"
                                     />
                                 </Form.Group>
                             </Col>
                         </Row>
                         <Button type="submit" className="w-100" disabled={submitting}>
-                            {submitting ? 'Creating...' : 'Create account'}
+                            {submitting ? 'Đang tạo...' : 'Tạo tài khoản'}
                         </Button>
                     </Form>
                 )}
@@ -219,11 +219,11 @@ export default function AuthModal({ mode, show, onHide, onLoginSuccess, onSwitch
             <Modal.Footer className="justify-content-center">
                 {isLogin ? (
                     <Button variant="link" onClick={() => onSwitchMode?.('register')}>
-                        Need an account? Sign up
+                        Chưa có tài khoản? Đăng ký
                     </Button>
                 ) : (
                     <Button variant="link" onClick={() => onSwitchMode?.('login')}>
-                        Already have an account? Login
+                        Đã có tài khoản? Đăng nhập
                     </Button>
                 )}
             </Modal.Footer>

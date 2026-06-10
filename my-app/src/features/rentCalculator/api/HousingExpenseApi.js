@@ -43,9 +43,9 @@ export const HousingExpenseAction = async ({ request }) => {
         const id = formData.get('id')?.toString() || null;
 
         if (intent === 'delete') {
-            if (!id) return { error: 'Housing expense id is required.' };
+            if (!id) return { error: 'Thiếu mã chi phí thuê nhà.' };
             await deleteHousingExpense(id);
-            return { message: 'Deleted successfully.' };
+            return { message: 'Xóa thành công.' };
         }
 
         const payload = {
@@ -66,10 +66,10 @@ export const HousingExpenseAction = async ({ request }) => {
             await createHousingExpense(payload);
         }
 
-        return { message: 'Saved successfully.' };
+        return { message: 'Lưu thành công.' };
     } catch (error) {
         return {
-            error: error.response?.data?.message || 'Cannot save rent expense.',
+            error: error.response?.data?.message || 'Không thể lưu chi phí thuê nhà.',
         };
     }
 };

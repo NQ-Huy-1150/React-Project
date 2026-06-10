@@ -49,8 +49,8 @@ function ExpenseCard({ expense, onEdit, onDelete, isSaving }) {
             <Card.Body>
                 <div className="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <Card.Title className="mb-1">Spend tracker</Card.Title>
-                        <Card.Subtitle className="text-muted">{expense.month || 'No month'}</Card.Subtitle>
+                        <Card.Title className="mb-1">Theo dõi chi tiêu</Card.Title>
+                        <Card.Subtitle className="text-muted">{expense.month || 'Chưa có tháng'}</Card.Subtitle>
                     </div>
                     <Badge bg={remainingAmount >= 0 ? 'success' : 'danger'}>
                         {formatMoney(remainingAmount)}
@@ -59,27 +59,27 @@ function ExpenseCard({ expense, onEdit, onDelete, isSaving }) {
 
                 <Row className="g-3 small">
                     <Col xs={6}>
-                        <div className="text-muted">Income</div>
+                        <div className="text-muted">Thu nhập</div>
                         <strong>{formatMoney(expense.totalIncome)}</strong>
                     </Col>
                     <Col xs={6}>
-                        <div className="text-muted">House</div>
+                        <div className="text-muted">Nhà ở</div>
                         <strong>{formatMoney(expense.houseCost)}</strong>
                     </Col>
                     <Col xs={6}>
-                        <div className="text-muted">Food</div>
+                        <div className="text-muted">Ăn uống</div>
                         <strong>{formatMoney(expense.foodCost)}</strong>
                     </Col>
                     <Col xs={6}>
-                        <div className="text-muted">Travel</div>
+                        <div className="text-muted">Di chuyển</div>
                         <strong>{formatMoney(expense.traveCost)}</strong>
                     </Col>
                     <Col xs={6}>
-                        <div className="text-muted">Saving</div>
+                        <div className="text-muted">Tiết kiệm</div>
                         <strong>{formatMoney(expense.savingAndInvestment)}</strong>
                     </Col>
                     <Col xs={6}>
-                        <div className="text-muted">Other</div>
+                        <div className="text-muted">Khác</div>
                         <strong>{formatMoney(
                             toNumber(expense.otherCost1)
                             + toNumber(expense.otherCost2)
@@ -92,10 +92,10 @@ function ExpenseCard({ expense, onEdit, onDelete, isSaving }) {
             <Card.Footer className="bg-white border-0">
                 <div className="d-flex justify-content-end gap-2">
                     <Button size="sm" variant="warning" onClick={() => onEdit(expense)} disabled={isSaving}>
-                        Update
+                        Sửa
                     </Button>
                     <Button size="sm" variant="danger" onClick={() => onDelete(expense.id)} disabled={isSaving}>
-                        Delete
+                        Xóa
                     </Button>
                 </div>
             </Card.Footer>
@@ -186,13 +186,13 @@ export default function AppSpendTracker() {
         <>
             <Row className="align-items-center mb-3">
                 <Col>
-                    <h3 className="mb-1">Spend Tracker</h3>
+                    <h3 className="mb-1">Theo dõi chi tiêu</h3>
                     <p className="text-muted mb-0">
-                        Track monthly income, daily costs, savings and remaining amount.
+                        Theo dõi thu nhập, chi phí, tiết kiệm và số tiền còn lại mỗi tháng.
                     </p>
                 </Col>
                 <Col xs="auto">
-                    <Button onClick={openCreateModal}>Create spend record</Button>
+                    <Button onClick={openCreateModal}>Tạo ghi nhận chi tiêu</Button>
                 </Col>
             </Row>
 
@@ -214,9 +214,9 @@ export default function AppSpendTracker() {
                     <Col xs={12}>
                         <Card className="border-0 bg-light">
                             <Card.Body className="text-center py-5">
-                                <h5>No spend record yet</h5>
-                                <p className="text-muted">Create your first monthly spending summary.</p>
-                                <Button onClick={openCreateModal}>Create now</Button>
+                                <h5>Chưa có ghi nhận chi tiêu</h5>
+                                <p className="text-muted">Tạo bản tổng hợp chi tiêu đầu tiên của bạn.</p>
+                                <Button onClick={openCreateModal}>Tạo ngay</Button>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -232,7 +232,7 @@ export default function AppSpendTracker() {
             >
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        {selectedExpense ? 'Update spend record' : 'Create spend record'}
+                        {selectedExpense ? 'Cập nhật ghi nhận chi tiêu' : 'Tạo ghi nhận chi tiêu'}
                     </Modal.Title>
                 </Modal.Header>
 
@@ -246,7 +246,7 @@ export default function AppSpendTracker() {
                         <Row className="g-3">
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="spendMonth">
-                                    <Form.Label>Month</Form.Label>
+                                    <Form.Label>Tháng</Form.Label>
                                     <Form.Control
                                         type="date"
                                         name="month"
@@ -257,7 +257,7 @@ export default function AppSpendTracker() {
                             </Col>
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="totalIncome">
-                                    <Form.Label>Total income</Form.Label>
+                                    <Form.Label>Tổng thu nhập</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -265,14 +265,14 @@ export default function AppSpendTracker() {
                                         name="totalIncome"
                                         value={form.totalIncome}
                                         onChange={handleInputChange}
-                                        placeholder="Monthly income"
+                                        placeholder="Thu nhập hàng tháng"
                                     />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="houseCost">
-                                    <Form.Label>House cost</Form.Label>
+                                    <Form.Label>Chi phí nhà ở</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -280,13 +280,13 @@ export default function AppSpendTracker() {
                                         name="houseCost"
                                         value={form.houseCost}
                                         onChange={handleInputChange}
-                                        placeholder="Rent / house cost"
+                                        placeholder="Tiền thuê / chi phí nhà ở"
                                     />
                                 </Form.Group>
                             </Col>
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="foodCost">
-                                    <Form.Label>Food cost</Form.Label>
+                                    <Form.Label>Chi phí ăn uống</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -294,14 +294,14 @@ export default function AppSpendTracker() {
                                         name="foodCost"
                                         value={form.foodCost}
                                         onChange={handleInputChange}
-                                        placeholder="Food cost"
+                                        placeholder="Chi phí ăn uống"
                                     />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="traveCost">
-                                    <Form.Label>Travel cost</Form.Label>
+                                    <Form.Label>Chi phí di chuyển</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -309,13 +309,13 @@ export default function AppSpendTracker() {
                                         name="traveCost"
                                         value={form.traveCost}
                                         onChange={handleInputChange}
-                                        placeholder="Travel cost"
+                                        placeholder="Chi phí di chuyển"
                                     />
                                 </Form.Group>
                             </Col>
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="savingAndInvestment">
-                                    <Form.Label>Saving and investment</Form.Label>
+                                    <Form.Label>Tiết kiệm và đầu tư</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -323,14 +323,14 @@ export default function AppSpendTracker() {
                                         name="savingAndInvestment"
                                         value={form.savingAndInvestment}
                                         onChange={handleInputChange}
-                                        placeholder="Saving / investment"
+                                        placeholder="Tiết kiệm / đầu tư"
                                     />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={12} md={4}>
                                 <Form.Group controlId="otherCost1">
-                                    <Form.Label>Other cost 1</Form.Label>
+                                    <Form.Label>Chi phí khác 1</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -343,7 +343,7 @@ export default function AppSpendTracker() {
                             </Col>
                             <Col xs={12} md={4}>
                                 <Form.Group controlId="otherCost2">
-                                    <Form.Label>Other cost 2</Form.Label>
+                                    <Form.Label>Chi phí khác 2</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -356,7 +356,7 @@ export default function AppSpendTracker() {
                             </Col>
                             <Col xs={12} md={4}>
                                 <Form.Group controlId="otherCost3">
-                                    <Form.Label>Other cost 3</Form.Label>
+                                    <Form.Label>Chi phí khác 3</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -373,15 +373,15 @@ export default function AppSpendTracker() {
                             <Card.Body>
                                 <Row className="text-center g-3">
                                     <Col xs={12} md={4}>
-                                        <div className="text-muted small">Total costs</div>
+                                        <div className="text-muted small">Tổng chi phí</div>
                                         <strong>{formatMoney(totalCosts)}</strong>
                                     </Col>
                                     <Col xs={12} md={4}>
-                                        <div className="text-muted small">Saving</div>
+                                        <div className="text-muted small">Tiết kiệm</div>
                                         <strong>{formatMoney(form.savingAndInvestment)}</strong>
                                     </Col>
                                     <Col xs={12} md={4}>
-                                        <div className="text-muted small">Estimated remaining</div>
+                                        <div className="text-muted small">Số dư dự kiến</div>
                                         <strong className={previewRemaining >= 0 ? 'text-success' : 'text-danger'}>
                                             {formatMoney(previewRemaining)}
                                         </strong>
@@ -393,10 +393,10 @@ export default function AppSpendTracker() {
 
                     <Modal.Footer>
                         <Button variant="secondary" type="button" onClick={closeModal} disabled={isSaving}>
-                            Close
+                            Đóng
                         </Button>
                         <Button variant="primary" type="submit" disabled={isSaving}>
-                            {isSaving ? 'Saving...' : 'Save'}
+                            {isSaving ? 'Đang lưu...' : 'Lưu'}
                         </Button>
                     </Modal.Footer>
                 </fetcher.Form>

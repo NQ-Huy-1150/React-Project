@@ -20,8 +20,8 @@ export default function LetterCounterPage() {
         <Container className="letter-counter-container py-4">
             <Row className="mb-4">
                 <Col>
-                    <h2>Letter Counter</h2>
-                    <p className="text-muted">Count characters, words, sentences, and more</p>
+                    <h2>Đếm ký tự</h2>
+                    <p className="text-muted">Đếm ký tự, từ, câu, đoạn văn và nhiều thông tin khác</p>
                 </Col>
             </Row>
 
@@ -30,13 +30,13 @@ export default function LetterCounterPage() {
                     <Card>
                         <Card.Body>
                             <Form.Group className="mb-3">
-                                <Form.Label>Enter your text</Form.Label>
+                                <Form.Label>Nhập văn bản</Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     rows={8}
                                     value={text}
                                     onChange={(e) => setText(e.target.value)}
-                                    placeholder="Paste or type your text here..."
+                                    placeholder="Dán hoặc nhập văn bản tại đây..."
                                     className="letter-counter-textarea"
                                 />
                             </Form.Group>
@@ -44,7 +44,7 @@ export default function LetterCounterPage() {
                                 className="btn btn-secondary"
                                 onClick={handleClear}
                             >
-                                Clear
+                                Xóa nội dung
                             </button>
                         </Card.Body>
                     </Card>
@@ -55,35 +55,35 @@ export default function LetterCounterPage() {
                         <Card className="stat-card">
                             <Card.Body className="text-center">
                                 <div className="stat-value">{stats.characters}</div>
-                                <div className="stat-label">Characters</div>
+                                <div className="stat-label">Ký tự</div>
                             </Card.Body>
                         </Card>
 
                         <Card className="stat-card">
                             <Card.Body className="text-center">
                                 <div className="stat-value">{stats.words}</div>
-                                <div className="stat-label">Words</div>
+                                <div className="stat-label">Từ</div>
                             </Card.Body>
                         </Card>
 
                         <Card className="stat-card">
                             <Card.Body className="text-center">
                                 <div className="stat-value">{stats.charactersNoSpaces}</div>
-                                <div className="stat-label">Characters (no spaces)</div>
+                                <div className="stat-label">Ký tự không tính khoảng trắng</div>
                             </Card.Body>
                         </Card>
 
                         <Card className="stat-card">
                             <Card.Body className="text-center">
                                 <div className="stat-value">{stats.sentences}</div>
-                                <div className="stat-label">Sentences</div>
+                                <div className="stat-label">Câu</div>
                             </Card.Body>
                         </Card>
 
                         <Card className="stat-card">
                             <Card.Body className="text-center">
                                 <div className="stat-value">{stats.paragraphs}</div>
-                                <div className="stat-label">Paragraphs</div>
+                                <div className="stat-label">Đoạn văn</div>
                             </Card.Body>
                         </Card>
                     </div>

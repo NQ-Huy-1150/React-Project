@@ -134,7 +134,7 @@ export default function CatalogDropdown({
         <DropdownButton
             className="w-auto"
             id="catalog-dropdown-button"
-            title={selectedCatalog?.title ?? "Select catalog"}
+            title={selectedCatalog?.title ?? "Chọn catalog"}
             autoClose='outside'
         >
             <Row>
@@ -156,7 +156,7 @@ export default function CatalogDropdown({
             <Dropdown.Divider />
             {!showCreate ? (
                 <Button type="button" onClick={() => setShowCreate(true)}>
-                    + Create New Catalog
+                    + Tạo catalog mới
                 </Button>
             ) : (
                 <Row className="g-2">
@@ -164,14 +164,14 @@ export default function CatalogDropdown({
                         <input
                             className="form-control"
                             type="text"
-                            placeholder="new catalog..."
+                            placeholder="Catalog mới..."
                             value={cata.title}
                             onChange={(e) => setCata((prev) => ({ ...prev, title: e.target.value }))}
                         />
                     </Col>
                     <Col xs={12} md={3}>
                         <Button size="sm" type="button" onClick={handleAddToList}>
-                            Save
+                            Lưu
                         </Button>
                     </Col>
                 </Row>

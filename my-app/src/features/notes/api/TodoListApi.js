@@ -42,23 +42,23 @@ export const TodoListAction = async ({ request }) => {
         const id = rawId ? +rawId : null;
 
         if (intent === "delete") {
-            if (id == null) return { error: "Todo list id is required." };
+            if (id == null) return { error: "Thiếu mã danh sách việc cần làm." };
             await GetDeleteById(id);
-            return { message: "Deleted successfully." };
+            return { message: "Xóa thành công." };
         }
 
         const rawCatalogId = dataForm.get('catalogId');
         const catalogId = rawCatalogId ? +rawCatalogId : null;
         const payload = {
             id: id,
-            title: dataForm.get("title")?.toString().trim() || "Untitled",
+            title: dataForm.get("title")?.toString().trim() || "Chưa đặt tên",
             todos: JSON.parse(dataForm.get("items") || "[]"),
             createdAt: null,
             updatedAt: null,
             catalogId: catalogId
         };
         if (!payload.todos.length) {
-            return { error: "Todo list must have at least 1 item." };
+            return { error: "Danh sách cần có ít nhất một công việc." };
         }
         if (payload.id == null) {
             await CreateTodoList(payload);
@@ -67,11 +67,11 @@ export const TodoListAction = async ({ request }) => {
             await ModifyTodoList(payload);
         }
 
-        return { message: "Saved successfully." };
+        return { message: "Lưu thành công." };
 
     } catch (error) {
         return {
-            error: error.response?.data?.message || "Cant connect to server !"
+            error: error.response?.data?.message || "Không thể kết nối tới server!"
         }
     }
 

@@ -66,7 +66,7 @@ export default function AppCaseConverter() {
     const handleCopy = () => {
         if (outputText) {
             navigator.clipboard.writeText(outputText);
-            setCopyMessage('Copied!');
+            setCopyMessage('Đã sao chép!');
             setTimeout(() => setCopyMessage(''), 2000);
         }
     };
@@ -74,19 +74,19 @@ export default function AppCaseConverter() {
     return (
         <div className="container mt-4">
             <hr />
-            <h2 className="text-primary">CASE CONVERTER</h2>
+            <h2 className="text-primary">CHUYỂN ĐỔI CHỮ</h2>
             <hr />
 
             <div className="row">
                 <div className="col-md-6">
                     <label htmlFor="inputText" className="form-label">
-                        <strong>Input Text:</strong>
+                        <strong>Văn bản đầu vào:</strong>
                     </label>
                     <textarea
                         id="inputText"
                         className="form-control"
                         rows="5"
-                        placeholder="Enter text here..."
+                        placeholder="Nhập văn bản tại đây..."
                         value={inputText}
                         onChange={(e) => {
                             setInputText(e.target.value);
@@ -97,13 +97,13 @@ export default function AppCaseConverter() {
 
                 <div className="col-md-6">
                     <label htmlFor="outputText" className="form-label">
-                        <strong>Output Text:</strong>
+                        <strong>Kết quả:</strong>
                     </label>
                     <textarea
                         id="outputText"
                         className="form-control"
                         rows="5"
-                        placeholder="Result will appear here..."
+                        placeholder="Kết quả sẽ hiển thị tại đây..."
                         value={outputText}
                         readOnly
                     ></textarea>
@@ -115,43 +115,43 @@ export default function AppCaseConverter() {
                     className="btn btn-primary"
                     onClick={handleUpperCase}
                 >
-                    UpperCase
+                    IN HOA
                 </button>
                 <button
                     className="btn btn-info"
                     onClick={handleLowerCase}
                 >
-                    LowerCase
+                    in thường
                 </button>
                 <button
                     className="btn btn-warning"
                     onClick={handleToggleCase}
                 >
-                    Toggle Case
+                    Đảo hoa/thường
                 </button>
                 <button
                     className="btn btn-secondary"
                     onClick={handleCapitalizeFirst}
                 >
-                    Capitalize First
+                    Viết hoa chữ đầu
                 </button>
                 <button
                     className="btn btn-secondary"
                     onClick={handleTitleCase}
                 >
-                    Title Case
+                    Viết hoa từng từ
                 </button>
                 <button
                     className="btn btn-dark"
                     onClick={handleCamelCase}
                 >
-                    Camel Case
+                    camelCase
                 </button>
                 <button
                     className="btn btn-success"
                     onClick={handleCopy}
                 >
-                    Copy
+                    Sao chép
                 </button>
             </div>
 

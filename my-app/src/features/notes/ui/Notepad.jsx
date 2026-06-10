@@ -28,7 +28,7 @@ function ModalInput({ show, onHide, note, onTitleChange,
         >
             <Modal.Header closeButton>
                 <Modal.Title>
-                    <h4>{note.title || 'Untitled note'}</h4>
+                    <h4>{note.title || 'Ghi chú chưa đặt tên'}</h4>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -36,7 +36,7 @@ function ModalInput({ show, onHide, note, onTitleChange,
                     <Col xs={12} md={12}>
                         <Form>
                             <input type="text"
-                                placeholder='Title...'
+                                placeholder='Tiêu đề...'
                                 className='mb-3 form-control'
                                 value={note.title}
                                 onChange={onTitleChange}
@@ -56,7 +56,7 @@ function ModalInput({ show, onHide, note, onTitleChange,
                             contentEditable
                             ref={contentRef}
                             suppressContentEditableWarning
-                            data-placeholder='Content...'
+                            data-placeholder='Nội dung...'
                             onInput={onContentInput}
                         >
                         </div>
@@ -95,7 +95,7 @@ export default function NotePad() {
     const isSaving = fetcher.state !== 'idle';
     const didSubmitRef = useRef(false);
     if (status === 'success') {
-        return alert('Save successfully !');
+        return alert('Lưu thành công!');
     }
     const openModalWithNote = (note) => {
         setSelectedNote(note);
@@ -185,7 +185,7 @@ export default function NotePad() {
                 <Col xs={12} md={12}>
                     <div className='d-flex justify-content-end'>
                         <Button variant="primary" onClick={handleCreateNotePad}>
-                            Create a notepad
+                            Tạo ghi chú
                         </Button>
                     </div>
                     <ModalInput
@@ -233,9 +233,9 @@ export default function NotePad() {
                     <Col xs={12}>
                         <Card className="border-0 bg-light">
                             <Card.Body className="text-center py-5">
-                                <h5>No note yet</h5>
-                                <p className="text-muted">Create your first note.</p>
-                                <Button onClick={handleCreateNotePad}>Create now</Button>
+                                <h5>Chưa có ghi chú</h5>
+                                <p className="text-muted">Tạo ghi chú đầu tiên của bạn.</p>
+                                <Button onClick={handleCreateNotePad}>Tạo ngay</Button>
                             </Card.Body>
                         </Card>
                     </Col>

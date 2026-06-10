@@ -9,15 +9,15 @@ function NotePreview({ note }) {
     return (
         <Card className="h-100 border-0 shadow-sm">
             <Card.Body>
-                <Badge bg="primary" className="mb-2">Notepad</Badge>
-                <Card.Title>{note.title || 'Untitled note'}</Card.Title>
+                <Badge bg="primary" className="mb-2">Ghi chú</Badge>
+                <Card.Title>{note.title || 'Ghi chú chưa đặt tên'}</Card.Title>
                 <Card.Text className="text-muted">
-                    {note.content || 'No content'}
+                    {note.content || 'Chưa có nội dung'}
                 </Card.Text>
             </Card.Body>
             <Card.Footer className="bg-white border-0">
                 <Button as={Link} to="/notes/take-note" size="sm" variant="outline-primary">
-                    Open notepad
+                    Mở ghi chú
                 </Button>
             </Card.Footer>
         </Card>
@@ -28,8 +28,8 @@ function TodoPreview({ todoList }) {
     return (
         <Card className="h-100 border-0 shadow-sm">
             <Card.Body>
-                <Badge bg="success" className="mb-2">Todo-list</Badge>
-                <Card.Title>{todoList.title || 'Untitled todo list'}</Card.Title>
+                <Badge bg="success" className="mb-2">Việc cần làm</Badge>
+                <Card.Title>{todoList.title || 'Danh sách chưa đặt tên'}</Card.Title>
                 <ListGroup variant="flush">
                     {(todoList.todos || []).slice(0, 3).map((todo) => (
                         <ListGroup.Item key={todo.id} className="px-0">
@@ -41,7 +41,7 @@ function TodoPreview({ todoList }) {
             </Card.Body>
             <Card.Footer className="bg-white border-0">
                 <Button as={Link} to="/notes/todo-list" size="sm" variant="outline-success">
-                    Open todo-list
+                    Mở danh sách
                 </Button>
             </Card.Footer>
         </Card>
@@ -77,15 +77,15 @@ export default function NoteCatalog() {
         <>
             <Row className="align-items-center mb-3">
                 <Col xs={12} md={7}>
-                    <h4 className="mb-1">Notes overview</h4>
-                    <p className="text-muted mb-0">Filter notepads and todo-lists by catalog.</p>
+                    <h4 className="mb-1">Tổng quan ghi chú</h4>
+                    <p className="text-muted mb-0">Lọc ghi chú và danh sách việc cần làm theo catalog.</p>
                 </Col>
                 <Col xs={12} md={5} className="text-md-end mt-3 mt-md-0">
                     <Button as={Link} to="/notes/take-note" className="me-2" size="sm">
-                        New note
+                        Tạo ghi chú
                     </Button>
                     <Button as={Link} to="/notes/todo-list" variant="outline-primary" size="sm">
-                        New todo-list
+                        Tạo danh sách
                     </Button>
                 </Col>
             </Row>
@@ -98,14 +98,14 @@ export default function NoteCatalog() {
                             variant={selectedCatalog === ALL_CATALOGS ? 'primary' : 'outline-primary'}
                             onClick={() => setSelectedCatalog(ALL_CATALOGS)}
                         >
-                            All
+                            Tất cả
                         </Button>
                         <Button
                             size="sm"
                             variant={selectedCatalog === UNCATEGORIZED ? 'secondary' : 'outline-secondary'}
                             onClick={() => setSelectedCatalog(UNCATEGORIZED)}
                         >
-                            No catalog
+                            Chưa phân loại
                         </Button>
                         {catalogs.map((catalog) => (
                             <Button
@@ -124,8 +124,8 @@ export default function NoteCatalog() {
             {!hasRecords ? (
                 <Card className="border-0 bg-light">
                     <Card.Body className="text-center py-5">
-                        <h5>No record yet</h5>
-                        <p className="text-muted">Create a notepad or todo-list for this catalog.</p>
+                        <h5>Chưa có dữ liệu</h5>
+                        <p className="text-muted">Tạo ghi chú hoặc danh sách việc cần làm cho catalog này.</p>
                     </Card.Body>
                 </Card>
             ) : (

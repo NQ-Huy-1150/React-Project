@@ -65,8 +65,8 @@ function Todo({ obj, setTodos }) {
                     )}
                 </Col>
                 <Col xs={12} md={4}>
-                    <Button className='me-3 ms-5' size='sm' onClick={handleEdit}>Edit</Button>
-                    <Button size='sm' onClick={handleDelete}>Delete</Button>
+                    <Button className='me-3 ms-5' size='sm' onClick={handleEdit}>Sửa</Button>
+                    <Button size='sm' onClick={handleDelete}>Xóa</Button>
                 </Col>
             </Row>
         </>
@@ -86,7 +86,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange,
         >
             <Modal.Header closeButton>
                 <Modal.Title>
-                    <h4>{title || 'Untitled'}</h4>
+                    <h4>{title || 'Danh sách chưa đặt tên'}</h4>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -94,7 +94,7 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange,
                     <Row>
                         <Col xs={12} md={12}>
                             <input type="text"
-                                placeholder='Title...'
+                                placeholder='Tiêu đề...'
                                 className='mb-3 form-control'
                                 value={title}
                                 onChange={onTitleChange}
@@ -109,14 +109,14 @@ function ModalInput({ show, onHide, todo, todos, onTitleChange,
                     <Row>
                         <Col xs={12} md={9}>
                             <input type="text"
-                                placeholder='Add your task here '
+                                placeholder='Thêm công việc tại đây'
                                 className='mb-3 form-control'
                                 value={todo.content}
                                 onChange={onContentInput}
                             />
                         </Col>
                         <Col xs={12} md={3}>
-                            <Button type="button" onClick={onAddToList}>Create new task</Button>
+                            <Button type="button" onClick={onAddToList}>Thêm công việc</Button>
                         </Col>
                     </Row>
                     <Row>
@@ -259,7 +259,7 @@ export default function NoteTodolist() {
                 <Col xs={12} md={12}>
                     <div className='d-flex justify-content-end'>
                         <Button variant="primary" onClick={handleCreateNewTodo}>
-                            Create a new Todo-list
+                            Tạo danh sách việc cần làm
                         </Button>
                     </div>
                     <ModalInput
@@ -312,9 +312,9 @@ export default function NoteTodolist() {
                     <Col xs={12}>
                         <Card className="border-0 bg-light">
                             <Card.Body className="text-center py-5">
-                                <h5>No todo list yet</h5>
-                                <p className="text-muted">Create your first todo list.</p>
-                                <Button onClick={handleCreateNewTodo}>Create now</Button>
+                                <h5>Chưa có danh sách việc cần làm</h5>
+                                <p className="text-muted">Tạo danh sách đầu tiên của bạn.</p>
+                                <Button onClick={handleCreateNewTodo}>Tạo ngay</Button>
                             </Card.Body>
                         </Card>
                     </Col>

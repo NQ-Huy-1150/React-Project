@@ -15,8 +15,8 @@ export default function ShowNoteCard({ note, openModalWithNote, onDelete, isSavi
             </Card.Body>
             <Card.Footer>
                 <div className="d-flex justify-content-center align-items-center">
-                    <Button className="me-2" size='sm' variant="warning" onClick={handleUpdate} disabled={isSaving}>Update</Button>
-                    <Button size='sm' variant="danger" onClick={handleDelete} disabled={isSaving}>Delete</Button>
+                    <Button className="me-2" size='sm' variant="warning" onClick={handleUpdate} disabled={isSaving}>Sửa</Button>
+                    <Button size='sm' variant="danger" onClick={handleDelete} disabled={isSaving}>Xóa</Button>
                 </div>
             </Card.Footer>
         </Card>

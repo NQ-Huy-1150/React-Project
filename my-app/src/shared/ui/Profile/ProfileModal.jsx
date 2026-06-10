@@ -35,7 +35,7 @@ export default function ProfileModal({ show, onHide, onProfileUpdated }) {
                 }
             } catch (error) {
                 if (!cancelled) {
-                    setMessage(error.response?.data?.message || 'Cannot load profile.');
+                    setMessage(error.response?.data?.message || 'Không thể tải hồ sơ.');
                 }
             } finally {
                 if (!cancelled) setLoading(false);
@@ -86,7 +86,7 @@ export default function ProfileModal({ show, onHide, onProfileUpdated }) {
             syncStoredUser(updatedProfile);
             closeModal();
         } catch (error) {
-            setMessage(error.response?.data?.message || 'Update profile failed.');
+            setMessage(error.response?.data?.message || 'Cập nhật hồ sơ thất bại.');
         } finally {
             setSubmitting(false);
         }
@@ -95,7 +95,7 @@ export default function ProfileModal({ show, onHide, onProfileUpdated }) {
     return (
         <Modal show={show} onHide={closeModal} centered>
             <Modal.Header closeButton>
-                <Modal.Title>Profile</Modal.Title>
+                <Modal.Title>Hồ sơ cá nhân</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {message && <Alert variant="danger">{message}</Alert>}
@@ -107,7 +107,7 @@ export default function ProfileModal({ show, onHide, onProfileUpdated }) {
                 ) : (
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="profileUsername">
-                            <Form.Label>Username</Form.Label>
+                            <Form.Label>Tên đăng nhập</Form.Label>
                             <Form.Control
                                 name="username"
                                 value={profile.username}
@@ -117,12 +117,12 @@ export default function ProfileModal({ show, onHide, onProfileUpdated }) {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="profileFullName">
-                            <Form.Label>Full name</Form.Label>
+                            <Form.Label>Họ và tên</Form.Label>
                             <Form.Control
                                 name="fullName"
                                 value={profile.fullName}
                                 onChange={handleChange}
-                                placeholder="Enter full name"
+                                placeholder="Nhập họ và tên"
                             />
                         </Form.Group>
 
@@ -138,27 +138,27 @@ export default function ProfileModal({ show, onHide, onProfileUpdated }) {
                                 autoComplete="email"
                             />
                             <Form.Text className="text-muted">
-                                Email is locked for account safety.
+                                Email đang được khóa để bảo vệ tài khoản.
                             </Form.Text>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="profilePhoneNumber">
-                            <Form.Label>Phone number</Form.Label>
+                            <Form.Label>Số điện thoại</Form.Label>
                             <Form.Control
                                 name="phoneNumber"
                                 value={profile.phoneNumber}
                                 onChange={handleChange}
-                                placeholder="Phone number"
+                                placeholder="Số điện thoại"
                                 autoComplete="tel"
                             />
                         </Form.Group>
 
                         <div className="d-flex justify-content-end gap-2">
                             <Button type="button" variant="outline-secondary" onClick={closeModal}>
-                                Cancel
+                                Hủy
                             </Button>
                             <Button type="submit" disabled={submitting}>
-                                {submitting ? 'Saving...' : 'Save changes'}
+                                {submitting ? 'Đang lưu...' : 'Lưu thay đổi'}
                             </Button>
                         </div>
                     </Form>

@@ -1,9 +1,9 @@
 import { Row, Col, Container } from 'react-bootstrap'
 import { Outlet, Link } from 'react-router-dom'
 const pageList = [
-    { name: "Overview", link: '/notes' },
-    { name: "Notepad", link: '/notes/take-note' },
-    { name: "Todo-list", link: '/notes/todo-list' },
+    { name: "Tổng quan", link: '/notes' },
+    { name: "Ghi chú", link: '/notes/take-note' },
+    { name: "Việc cần làm", link: '/notes/todo-list' },
 ]
 export default function AppNotes() {
     return (

@@ -36,16 +36,16 @@ export const NotePadAction = async ({ request }) => {
         const id = rawId ? +rawId : null;
 
         if (intent === "delete") {
-            if (id == null) return { error: "Note id is required." };
+            if (id == null) return { error: "Thiếu mã ghi chú." };
             await GetDeleteById(id);
-            return { message: "Deleted successfully." };
+            return { message: "Xóa thành công." };
         }
 
         const rawCatalogId = dataForm.get('catalogId');
         const catalogId = rawCatalogId ? +rawCatalogId : null;
         const payload = {
             id: id,
-            title: dataForm.get("title")?.toString().trim() || "Untitled",
+            title: dataForm.get("title")?.toString().trim() || "Chưa đặt tên",
             content: dataForm.get("content")?.toString().trim(),
             createdAt: null,
             updatedAt: null,
@@ -53,7 +53,7 @@ export const NotePadAction = async ({ request }) => {
         };
         console.log(payload);
         if (!payload.content) {
-            return { error: "Content can not empty." };
+            return { error: "Nội dung không được để trống." };
         }
         if (payload.id == null) {
             await CreateNotePad(payload);
@@ -62,11 +62,11 @@ export const NotePadAction = async ({ request }) => {
             await UpdateNotePad(payload);
         }
 
-        return { message: "Saved successfully." };
+        return { message: "Lưu thành công." };
 
     } catch (error) {
         return {
-            error: error.response?.data?.message || "Cant connect to server !"
+            error: error.response?.data?.message || "Không thể kết nối tới server!"
         }
     }
 

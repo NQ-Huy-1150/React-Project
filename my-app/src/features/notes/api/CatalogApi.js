@@ -5,7 +5,7 @@ const BASE_URL = '/api/v1/catalog/'
 export const createCatalog = (item) => {
     requireAuth();
     const payload = {
-        title: item.title || 'Untitled'
+        title: item.title || 'Chưa đặt tên'
     };
     return apiClient.post(BASE_URL + 'create-catalog', payload)
         .then(response => {

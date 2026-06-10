@@ -45,31 +45,31 @@ function ExpenseCard({ expense, onEdit, onDelete, isSaving }) {
             <Card.Body>
                 <div className="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <Card.Title className="mb-1">Rent expense</Card.Title>
-                        <Card.Subtitle className="text-muted">{expense.month || 'No month'}</Card.Subtitle>
+                        <Card.Title className="mb-1">Chi phí thuê nhà</Card.Title>
+                        <Card.Subtitle className="text-muted">{expense.month || 'Chưa có tháng'}</Card.Subtitle>
                     </div>
                     <Badge bg="primary">{formatMoney(expense.total)}</Badge>
                 </div>
 
                 <Row className="g-3 small">
                     <Col xs={6}>
-                        <div className="text-muted">House</div>
+                        <div className="text-muted">Tiền nhà</div>
                         <strong>{formatMoney(expense.housePrice)}</strong>
                     </Col>
                     <Col xs={6}>
-                        <div className="text-muted">Service</div>
+                        <div className="text-muted">Dịch vụ</div>
                         <strong>{formatMoney(expense.serviceCosts)}</strong>
                     </Col>
                     <Col xs={6}>
-                        <div className="text-muted">Electricity</div>
+                        <div className="text-muted">Điện</div>
                         <strong>{formatMoney(expense.electricityBill)}</strong>
                     </Col>
                     <Col xs={6}>
-                        <div className="text-muted">Water</div>
+                        <div className="text-muted">Nước</div>
                         <strong>{formatMoney(expense.waterBill)}</strong>
                     </Col>
                     <Col xs={12}>
-                        <div className="text-muted">Other costs</div>
+                        <div className="text-muted">Chi phí khác</div>
                         <strong>{formatMoney(expense.othercosts)}</strong>
                     </Col>
                 </Row>
@@ -78,10 +78,10 @@ function ExpenseCard({ expense, onEdit, onDelete, isSaving }) {
             <Card.Footer className="bg-white border-0">
                 <div className="d-flex justify-content-end gap-2">
                     <Button size="sm" variant="warning" onClick={() => onEdit(expense)} disabled={isSaving}>
-                        Update
+                        Sửa
                     </Button>
                     <Button size="sm" variant="danger" onClick={() => onDelete(expense.id)} disabled={isSaving}>
-                        Delete
+                        Xóa
                     </Button>
                 </div>
             </Card.Footer>
@@ -171,13 +171,13 @@ export default function AppRentCalculator() {
         <>
             <Row className="align-items-center mb-3">
                 <Col>
-                    <h3 className="mb-1">Rent Calculator</h3>
+                    <h3 className="mb-1">Tính tiền thuê nhà</h3>
                     <p className="text-muted mb-0">
-                        Track house rent, utility usage, service costs and monthly total.
+                        Theo dõi tiền nhà, điện nước, phí dịch vụ và tổng chi phí hàng tháng.
                     </p>
                 </Col>
                 <Col xs="auto">
-                    <Button onClick={openCreateModal}>Create rent expense</Button>
+                    <Button onClick={openCreateModal}>Tạo khoản thuê nhà</Button>
                 </Col>
             </Row>
 
@@ -199,9 +199,9 @@ export default function AppRentCalculator() {
                     <Col xs={12}>
                         <Card className="border-0 bg-light">
                             <Card.Body className="text-center py-5">
-                                <h5>No rent expense yet</h5>
-                                <p className="text-muted">Create your first monthly rent calculation.</p>
-                                <Button onClick={openCreateModal}>Create now</Button>
+                                <h5>Chưa có chi phí thuê nhà</h5>
+                                <p className="text-muted">Tạo bản tính tiền thuê nhà đầu tiên của bạn.</p>
+                                <Button onClick={openCreateModal}>Tạo ngay</Button>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -217,7 +217,7 @@ export default function AppRentCalculator() {
             >
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        {selectedExpense ? 'Update rent expense' : 'Create rent expense'}
+                        {selectedExpense ? 'Cập nhật chi phí thuê nhà' : 'Tạo chi phí thuê nhà'}
                     </Modal.Title>
                 </Modal.Header>
 
@@ -231,7 +231,7 @@ export default function AppRentCalculator() {
                         <Row className="g-3">
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="rentMonth">
-                                    <Form.Label>Month</Form.Label>
+                                    <Form.Label>Tháng</Form.Label>
                                     <Form.Control
                                         type="date"
                                         name="month"
@@ -242,7 +242,7 @@ export default function AppRentCalculator() {
                             </Col>
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="housePrice">
-                                    <Form.Label>House price</Form.Label>
+                                    <Form.Label>Tiền nhà</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -250,14 +250,14 @@ export default function AppRentCalculator() {
                                         name="housePrice"
                                         value={form.housePrice}
                                         onChange={handleInputChange}
-                                        placeholder="Rent price"
+                                        placeholder="Tiền thuê nhà"
                                     />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="amoutOfElectric">
-                                    <Form.Label>Amount of electric</Form.Label>
+                                    <Form.Label>Số điện tiêu thụ</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -271,7 +271,7 @@ export default function AppRentCalculator() {
                             </Col>
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="electricityPrice">
-                                    <Form.Label>Electricity price</Form.Label>
+                                    <Form.Label>Đơn giá điện</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -279,14 +279,14 @@ export default function AppRentCalculator() {
                                         name="electricityPrice"
                                         value={form.electricityPrice}
                                         onChange={handleInputChange}
-                                        placeholder="Price per kWh"
+                                        placeholder="Giá mỗi kWh"
                                     />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="amoutOfWater">
-                                    <Form.Label>Amount of water</Form.Label>
+                                    <Form.Label>Số nước tiêu thụ</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -300,7 +300,7 @@ export default function AppRentCalculator() {
                             </Col>
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="waterPrice">
-                                    <Form.Label>Water price</Form.Label>
+                                    <Form.Label>Đơn giá nước</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -308,14 +308,14 @@ export default function AppRentCalculator() {
                                         name="waterPrice"
                                         value={form.waterPrice}
                                         onChange={handleInputChange}
-                                        placeholder="Price per m3"
+                                        placeholder="Giá mỗi m3"
                                     />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="serviceCosts">
-                                    <Form.Label>Service costs</Form.Label>
+                                    <Form.Label>Phí dịch vụ</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -323,13 +323,13 @@ export default function AppRentCalculator() {
                                         name="serviceCosts"
                                         value={form.serviceCosts}
                                         onChange={handleInputChange}
-                                        placeholder="Service fee"
+                                        placeholder="Phí dịch vụ"
                                     />
                                 </Form.Group>
                             </Col>
                             <Col xs={12} md={6}>
                                 <Form.Group controlId="othercosts">
-                                    <Form.Label>Other costs</Form.Label>
+                                    <Form.Label>Chi phí khác</Form.Label>
                                     <Form.Control
                                         type="number"
                                         min="0"
@@ -337,7 +337,7 @@ export default function AppRentCalculator() {
                                         name="othercosts"
                                         value={form.othercosts}
                                         onChange={handleInputChange}
-                                        placeholder="Other costs"
+                                        placeholder="Chi phí khác"
                                     />
                                 </Form.Group>
                             </Col>
@@ -347,15 +347,15 @@ export default function AppRentCalculator() {
                             <Card.Body>
                                 <Row className="text-center g-3">
                                     <Col xs={12} md={4}>
-                                        <div className="text-muted small">Electricity bill</div>
+                                        <div className="text-muted small">Tiền điện</div>
                                         <strong>{formatMoney(electricityBill)}</strong>
                                     </Col>
                                     <Col xs={12} md={4}>
-                                        <div className="text-muted small">Water bill</div>
+                                        <div className="text-muted small">Tiền nước</div>
                                         <strong>{formatMoney(waterBill)}</strong>
                                     </Col>
                                     <Col xs={12} md={4}>
-                                        <div className="text-muted small">Estimated total</div>
+                                        <div className="text-muted small">Tổng dự kiến</div>
                                         <strong className="text-primary">{formatMoney(previewTotal)}</strong>
                                     </Col>
                                 </Row>
@@ -365,10 +365,10 @@ export default function AppRentCalculator() {
 
                     <Modal.Footer>
                         <Button variant="secondary" type="button" onClick={closeModal} disabled={isSaving}>
-                            Close
+                            Đóng
                         </Button>
                         <Button variant="primary" type="submit" disabled={isSaving}>
-                            {isSaving ? 'Saving...' : 'Save'}
+                            {isSaving ? 'Đang lưu...' : 'Lưu'}
                         </Button>
                     </Modal.Footer>
                 </fetcher.Form>
