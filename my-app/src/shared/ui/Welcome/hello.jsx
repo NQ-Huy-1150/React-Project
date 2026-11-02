@@ -12,6 +12,9 @@ export default function Hello() {
             <p className="badge text-bg-success mt-3 mb-0">
                 CI/CD test build thành công
             </p>
+            <p>
+                tesing....
+            </p>
         </div>
     );
 }
