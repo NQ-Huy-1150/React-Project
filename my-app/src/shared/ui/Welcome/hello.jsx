@@ -5,9 +5,12 @@ export default function Hello() {
             <p className="text-muted mb-0">
                 Chào mừng bạn đến với Life Manager. Hãy chọn một công cụ ở thanh bên để bắt đầu.
             </p>
-            <p className="text-muted mb-0 small" >
+            <p className="text-muted mb-0 small">
                 Đối với các tính năng như quản lý chi tiêu, ghi chú và tính tiền thuê nhà,
                 vui lòng đăng nhập để có trải nghiệm tốt nhất.
+            </p>
+            <p className="badge text-bg-success mt-3 mb-0">
+                CI/CD test build thành công
             </p>
         </div>
     );
