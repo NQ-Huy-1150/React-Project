@@ -2,5 +2,5 @@ services:
   webb-app:
     build:
       context: ./my-app
-  ports: -'5173:80'
-  restart: unless-stopped
+    ports: -'5173:80'
+    volumes: -web_app/var/data/we
