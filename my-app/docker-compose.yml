@@ -1,0 +1,6 @@
+services:
+  webb-app:
+    build:
+      context: ./my-app
+  ports: -'5173:80'
+  restart: unless-stopped
