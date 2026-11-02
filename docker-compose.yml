@@ -1,5 +1,6 @@
 services:
-  webb-app:
+  web-app:
+    container_name: react-web-app
     build:
       context: ./my-app
     ports: 
